@@ -1,0 +1,1115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>쿵쿵 광산</title>
+<meta name="description" content="제한된 산소로 땅을 파고, 광물을 팔아 장비를 강화하는 도트 채굴 게임.">
+<meta name="theme-color" content="#14100d">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADgklEQVR4Xu3dMYsdVQCA0V1jiqBrFl3SpBDsJGVEF7QNIoKkWrSLCinS2VmnSpsmoIVEBBO2CgErwUYDL6DNwpJKwcIIARVRsRBBzA+YG/IxvEk4p565M3f4uA9mZmc3d7a3NuBhPfGwO8L/BEQiIBIBkQiIREAkAiIREImASARE8uRw7xPHnxpu8+g6vHOjnPypF8+W3Rfu3u9/Dc/QCkQiIBIBkQiIREAkAiIREImASAREIiCSzeFfZaz3UcbhlROD+b1wJl2AoR++HG4yn1MX7s03+JBHGczOTxiJgEgERCIgEgGRCIhEQCQCIhm/VL90a71TfGvns1mvz8f7Mw5/fu/1ProViERAJAIiERCJgEgERCIgEgGRCIhEQCRLf5Tx9eogzW9mt5+7PX2EV345X05h9f3pid2v3vppevB3P7hYjv4grEAkAiIREImASAREIiASAZEIiERAJEv/vMvQav/ScJvF2t37cPrczr16cmKD4Z3oyOddmJ2fMBIBkQiIREAkAiIREImASAREIiCSpb9UH+2+dW56hNXNq+UQc4+/fFYgEgGRCIhEQCQCIhEQiYBIBEQiIJLH/E50vNE8NPf4y2cFIhEQiYBIBEQiIBIBkQiIREAkAiIREMnSH2WcufzzaH6fjjZYrvHs9l9a7tnfZwUiERCJgEgERCIgEgGRCIhEQCQCIhEQyfofZRw9e21iBt8e3Jme3xsHL6cLsGaD2U39o4NlsAKRCIhEQCQCIhEQiYBIBEQiIBIBkaz/TvR6fXP67XICr313vez+GLACkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIln/S/X/3Hhnagbvf5XmN+Kt+MgKRCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiGRzZ3treoA3P9lNR2ievvJjG2DgzwvPjzaZsvDTi754bzUcwQpEIiASAZEIiERAJAIiERCJgEgERCIgkvH3gY59dHf6CM9uHSun8Osff0/sfnz7mfkG39jYOPn5b2n8I0dnvTj/Tl78Wa/8A7ICkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhl/HwgmWIFIBEQiIBIBkQiIREAkAiIREImASAREIiCS/wDHPF9xQ0q/uAAAAABJRU5ErkJggg==" type="image/png">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADgklEQVR4Xu3dMYsdVQCA0V1jiqBrFl3SpBDsJGVEF7QNIoKkWrSLCinS2VmnSpsmoIVEBBO2CgErwUYDL6DNwpJKwcIIARVRsRBBzA+YG/IxvEk4p565M3f4uA9mZmc3d7a3NuBhPfGwO8L/BEQiIBIBkQiIREAkAiIREImASARE8uRw7xPHnxpu8+g6vHOjnPypF8+W3Rfu3u9/Dc/QCkQiIBIBkQiIREAkAiIREImASAREIiCSzeFfZaz3UcbhlROD+b1wJl2AoR++HG4yn1MX7s03+JBHGczOTxiJgEgERCIgEgGRCIhEQCQCIhm/VL90a71TfGvns1mvz8f7Mw5/fu/1ProViERAJAIiERCJgEgERCIgEgGRCIhEQCRLf5Tx9eogzW9mt5+7PX2EV345X05h9f3pid2v3vppevB3P7hYjv4grEAkAiIREImASAREIiASAZEIiERAJEv/vMvQav/ScJvF2t37cPrczr16cmKD4Z3oyOddmJ2fMBIBkQiIREAkAiIREImASAREIiCSpb9UH+2+dW56hNXNq+UQc4+/fFYgEgGRCIhEQCQCIhEQiYBIBEQiIJLH/E50vNE8NPf4y2cFIhEQiYBIBEQiIBIBkQiIREAkAiIREMnSH2WcufzzaH6fjjZYrvHs9l9a7tnfZwUiERCJgEgERCIgEgGRCIhEQCQCIhEQyfofZRw9e21iBt8e3Jme3xsHL6cLsGaD2U39o4NlsAKRCIhEQCQCIhEQiYBIBEQiIBIBkaz/TvR6fXP67XICr313vez+GLACkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIln/S/X/3Hhnagbvf5XmN+Kt+MgKRCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiGRzZ3treoA3P9lNR2ievvJjG2DgzwvPjzaZsvDTi754bzUcwQpEIiASAZEIiERAJAIiERCJgEgERCIgkvH3gY59dHf6CM9uHSun8Osff0/sfnz7mfkG39jYOPn5b2n8I0dnvTj/Tl78Wa/8A7ICkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhl/HwgmWIFIBEQiIBIBkQiIREAkAiIREImASAREIiCS/wDHPF9xQ0q/uAAAAABJRU5ErkJggg==">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="쿵쿵 광산">
+<meta property="og:title" content="쿵쿵 광산">
+<meta property="og:description" content="제한된 산소로 땅을 파고, 광물을 팔아 장비를 강화하는 도트 채굴 게임.">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+html { color-scheme: dark; }
+body { margin: 0; }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+</style>
+<script>
+// 파일 하나로 배포해도 홈 화면에 설치할 수 있게 매니페스트를 코드로 만들어요.
+(function () {
+  try {
+    var m = {"name": "쿵쿵 광산", "short_name": "쿵쿵 광산", "start_url": ".", "display": "standalone", "orientation": "portrait", "background_color": "#14100d", "theme_color": "#14100d", "lang": "ko", "icons": [{"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAAI30lEQVR4Xu3XsasWVBjA4W59DmG3e6mLi0PQFo5GCblKRBBOUpsVOLi1NTe1tgg1xI2gxEmEJqGlhCvkIohTQoMFQoaUNEQQETU0nwMefs/zB7zf+977ffw4W3u7248B0PN472QA/iYAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQtZl395Gdw/OGU3Pr9uVVTj72wulVVuXRd+/Bw3lLegEARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAERt7e1uTzr9yM7hSZOzbl04Mv7250+Nn7mQO1cXWvbRd+z8vUd/ybXce/Bw3sJeAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAELWJ3s1/7lz1xxjr2t7nYwcu5JNLCy073rkzr44fOpMXAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBA1CZ695q+Obi55uIt15+9Pvzgl38+N3zmDAffHx8+dv/a3eEz337vg+EzV+QFABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQtbW3uz3p9CM7hydNZqCDSx8OnMZCTpx5f/i2Z185Onzm/rW7w2cu5N6Dh/O29QIAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAIjaRO9mphNvnB0+/uDK/vCZk8TPZyFeAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUZvo3cx0cGV/5vhHXfx8FuIFABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQtYnevaZTH/00YfHPJsxkAVO+TpdeXOBy/uUFABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUZvo3fMdOv3l8A/57ubt4TNfu/nS8JksYvzX6egil/MPLwCAKAEAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgKhN9G5W8+3xN1dZ+eSNi6usSpwXAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAEDUJnr3fH9cfmv8h7z79fiZizh54+Iim8IyvAAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAorb2drcnnf76pycmTc566sIP2dt/O//cKrf7NzHQV+8cDJz2P14AAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRm3l3P/nxj8OHP7P95PCZk9z/9ffhk3d2nx4+c4YZtx/94pcZq85w/4lDw8eu8s3/069+KV4AAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABC1tbe7HT0doM0LACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKIEACBKAACiBAAgSgAAogQAIEoAAKL+AklAYfF5QDYWAAAAAElFTkSuQmCC", "sizes": "512x512", "type": "image/png", "purpose": "any"}, {"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADgklEQVR4Xu3dMYsdVQCA0V1jiqBrFl3SpBDsJGVEF7QNIoKkWrSLCinS2VmnSpsmoIVEBBO2CgErwUYDL6DNwpJKwcIIARVRsRBBzA+YG/IxvEk4p565M3f4uA9mZmc3d7a3NuBhPfGwO8L/BEQiIBIBkQiIREAkAiIREImASARE8uRw7xPHnxpu8+g6vHOjnPypF8+W3Rfu3u9/Dc/QCkQiIBIBkQiIREAkAiIREImASAREIiCSzeFfZaz3UcbhlROD+b1wJl2AoR++HG4yn1MX7s03+JBHGczOTxiJgEgERCIgEgGRCIhEQCQCIhm/VL90a71TfGvns1mvz8f7Mw5/fu/1ProViERAJAIiERCJgEgERCIgEgGRCIhEQCRLf5Tx9eogzW9mt5+7PX2EV345X05h9f3pid2v3vppevB3P7hYjv4grEAkAiIREImASAREIiASAZEIiERAJEv/vMvQav/ScJvF2t37cPrczr16cmKD4Z3oyOddmJ2fMBIBkQiIREAkAiIREImASAREIiCSpb9UH+2+dW56hNXNq+UQc4+/fFYgEgGRCIhEQCQCIhEQiYBIBEQiIJLH/E50vNE8NPf4y2cFIhEQiYBIBEQiIBIBkQiIREAkAiIREMnSH2WcufzzaH6fjjZYrvHs9l9a7tnfZwUiERCJgEgERCIgEgGRCIhEQCQCIhEQyfofZRw9e21iBt8e3Jme3xsHL6cLsGaD2U39o4NlsAKRCIhEQCQCIhEQiYBIBEQiIBIBkaz/TvR6fXP67XICr313vez+GLACkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIln/S/X/3Hhnagbvf5XmN+Kt+MgKRCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiGRzZ3treoA3P9lNR2ievvJjG2DgzwvPjzaZsvDTi754bzUcwQpEIiASAZEIiERAJAIiERCJgEgERCIgkvH3gY59dHf6CM9uHSun8Osff0/sfnz7mfkG39jYOPn5b2n8I0dnvTj/Tl78Wa/8A7ICkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhl/HwgmWIFIBEQiIBIBkQiIREAkAiIREImASAREIiCS/wDHPF9xQ0q/uAAAAABJRU5ErkJggg==", "sizes": "192x192", "type": "image/png"}]};
+    m.start_url = location.pathname;
+    var l = document.createElement("link");
+    l.rel = "manifest";
+    l.href = URL.createObjectURL(new Blob([JSON.stringify(m)], { type: "application/manifest+json" }));
+    document.head.appendChild(l);
+  } catch (e) {}
+})();
+</script>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gugi&family=Gowun+Dodum&family=DotGothic16&display=swap">
+<style>
+/* Layout: one narrow column that swaps between the surface shop and the mine. The page is deliberately a single dark underground look. Amber is the only accent: drill, buttons, time bar. */
+:root {
+  color-scheme: dark;
+  --bg: #17110e;
+  --panel: #231a15;
+  --line: #3c2e25;
+  --ink: #f4e7d4;
+  --muted: #ad9a85;
+  --accent: #ffb02e;
+  --accent-ink: #2a1700;
+  --good: #8bdc8f;
+  --warn: #ff6b57;
+  --font-display: "Jua", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-body: "Gowun Dodum", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  padding-block: 18px 32px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.app { max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+
+header { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: 34px; line-height: 1.05; margin: 0; }
+.coins { text-align: right; }
+.coins span { display: block; font-size: 11px; letter-spacing: 0.14em; color: var(--muted); }
+.coins b { font-family: var(--font-mono); font-weight: 500; font-size: 22px; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+section { display: flex; flex-direction: column; gap: 14px; }
+
+button {
+  font: inherit; font-size: 15px; color: var(--ink); background: var(--panel);
+  border: 1.5px solid var(--line); border-radius: 8px; padding: 9px 14px; min-height: 44px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--muted); }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-family: var(--font-display); font-size: 22px; min-height: 56px; }
+button.primary:hover:not(:disabled) { filter: brightness(1.08); border-color: var(--accent); }
+button.link { background: none; border: none; color: var(--muted); font-size: 13px; text-decoration: underline; min-height: 36px; align-self: center; }
+
+.report { border-left: 4px solid var(--accent); padding: 4px 0 4px 12px; margin: 0; }
+.report b { font-family: var(--font-display); font-weight: 400; font-size: 18px; display: block; }
+.report span { color: var(--muted); font-size: 14px; }
+
+.panel { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.panel h2 { font-family: var(--font-display); font-weight: 400; font-size: 20px; margin: 0; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.panel h2 small { font-family: var(--font-mono); font-size: 12px; color: var(--muted); font-weight: 500; }
+
+.bag { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.bag li { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-top: 1px solid var(--line); }
+.bag li:first-child { border-top: none; }
+.bag .sw { width: 14px; height: 14px; border-radius: 3px; flex: none; }
+.bag .nm { flex: 1; min-width: 0; }
+.bag .ct, .bag .vl { font-family: var(--font-mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+.bag .vl { color: var(--accent); min-width: 64px; text-align: right; }
+.empty { color: var(--muted); margin: 0; font-size: 14px; }
+.sellrow { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sellrow span { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+
+.upg { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+.upg:first-of-type { border-top: none; padding-top: 2px; }
+.upg .info { flex: 1; min-width: 0; }
+.upg .nm { font-family: var(--font-display); font-size: 18px; line-height: 1.2; }
+.upg .nm i { font-style: normal; font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-left: 6px; }
+.upg .ef { font-size: 13px; color: var(--muted); }
+.upg button { flex: none; min-width: 92px; font-family: var(--font-mono); font-size: 14px; }
+.upg button.can { border-color: var(--accent); color: var(--accent); }
+
+.tip { font-size: 13px; color: var(--muted); margin: 0; }
+
+.hud { display: flex; flex-direction: column; gap: 6px; }
+.hudrow { display: flex; justify-content: space-between; gap: 8px; font-family: var(--font-mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+.hudrow b { font-weight: 500; }
+.hudrow .layer { color: var(--muted); font-family: var(--font-body); font-size: 13px; }
+.bar { height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 100%; background: var(--accent); transition: background 0.2s; }
+.bar.low i { background: var(--warn); }
+
+.board { width: 100%; aspect-ratio: 9 / 10; }
+canvas { display: block; width: 100%; height: 100%; border-radius: 8px; background: #1c1411; touch-action: none; cursor: pointer; box-shadow: 0 0 0 2px var(--line); }
+canvas:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.dpad { display: none; grid-template-columns: repeat(3, 52px); grid-template-rows: repeat(2, 52px); gap: 6px; }
+.dpad button { padding: 0; font-size: 20px; min-height: 0; touch-action: none; }
+.dpad .u { grid-column: 2; grid-row: 1; }
+.dpad .l { grid-column: 1; grid-row: 2; }
+.dpad .d { grid-column: 2; grid-row: 2; }
+.dpad .r { grid-column: 3; grid-row: 2; }
+.keys { font-size: 13px; color: var(--muted); margin: 0; }
+@media (pointer: coarse) { .dpad { display: grid; } .keys { display: none; } }
+
+.hright { display: flex; align-items: flex-end; gap: 14px; }
+.mute { min-height: 32px; padding: 4px 10px; font-size: 12px; color: var(--muted); }
+.coins.pulse b { animation: pulse 0.4s ease-out; display: inline-block; }
+@keyframes pulse { 0% { transform: scale(1.12); } 100% { transform: scale(1); } }
+.upg.flash { animation: flash 0.9s ease-out; }
+@keyframes flash { 0% { background: color-mix(in srgb, var(--accent) 35%, transparent); } 100% { background: transparent; } }
+.cdx { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-top: 1px solid var(--line); }
+.cdx:first-child { border-top: none; padding-top: 0; }
+.cdx .sw { width: 14px; height: 14px; border-radius: 3px; flex: none; }
+.cdx .nm { flex: 1; min-width: 0; }
+.cdx .vl { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+.cdx.lock .nm, .cdx.lock .vl { color: var(--muted); }
+.hudrow b.full { color: var(--warn); }
+.hudrow b.urgent { color: var(--warn); animation: blink 0.5s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) { .coins.pulse b, .upg.flash, .hudrow b.urgent { animation: none; } }
+
+section { animation: fadein 0.25s ease-out; }
+@keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.wk-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.wk { aspect-ratio: 1 / 1; border-radius: 8px; border: 1px dashed var(--line); display: flex; align-items: center; justify-content: center; min-width: 0; }
+.wk.on { border-style: solid; background: #1d1511; }
+.wk svg { width: 82%; height: 82%; image-rendering: pixelated; }
+.wk .pick { transform-origin: 11.5px 9px; animation: swing 0.9s ease-in-out infinite alternate; }
+@keyframes swing { from { transform: rotate(-50deg); } to { transform: rotate(22deg); } }
+.wk.pop { animation: wkpop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
+@keyframes wkpop { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+.wk-info { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+.wk-info b { font-family: var(--font-mono); font-weight: 500; color: var(--accent); }
+.wk-info span { color: var(--muted); }
+.wk-btns { display: flex; gap: 8px; }
+.wk-btns button { flex: 1; font-family: var(--font-mono); font-size: 14px; }
+.wk-btns button.can { border-color: var(--accent); color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { section, .wk .pick, .wk.pop { animation: none; } }
+
+/* ===== pixel UI skin ===== */
+:root {
+  --bg: #14100d; --panel: #2a1f18; --line: #4a382b; --ink: #f6e9d2; --muted: #b7a48c;
+  --accent: #ffb52e; --accent-ink: #2a1700; --edge: #0b0806;
+  --font-display: "Gugi", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono: "DotGothic16", "Apple SD Gothic Neo", "Malgun Gothic", ui-monospace, monospace;
+}
+body { background: var(--bg) radial-gradient(circle at 20% 0, #241a13 0, transparent 60%); }
+h1 { font-family: var(--font-display); font-size: 30px; letter-spacing: 0.02em; text-shadow: 3px 3px 0 var(--edge), 0 0 0 var(--accent); color: var(--accent); }
+.coins b { font-family: var(--font-mono); font-size: 26px; text-shadow: 2px 2px 0 var(--edge); }
+.coins span, .stat span { letter-spacing: 0.1em; }
+.coins b::before { content: ""; display: inline-block; width: 14px; height: 14px; margin-right: 6px; vertical-align: -1px; background: var(--accent); box-shadow: inset -3px -3px 0 #c27d00, inset 3px 3px 0 #ffe08a, 0 0 0 2px var(--edge); }
+.panel { border: 3px solid var(--edge); border-radius: 0; background: var(--panel); box-shadow: inset 0 0 0 2px var(--line), 0 5px 0 var(--edge); padding: 16px; }
+.panel h2 { font-family: var(--font-display); font-size: 17px; font-weight: 400; color: var(--accent); text-shadow: 2px 2px 0 var(--edge); }
+.panel h2 small, .level, .ct, .vl, .hudrow, .upg .nm i, .cdx .vl, .wk-info b, .sellrow span { font-family: var(--font-mono); }
+button { border: 3px solid var(--edge); border-radius: 0; background: var(--line); color: var(--ink); box-shadow: inset 0 -4px 0 rgba(0,0,0,0.35), inset 0 3px 0 rgba(255,255,255,0.12), 0 4px 0 var(--edge); font-family: var(--font-body); transition: none; }
+button:hover:not(:disabled) { border-color: var(--edge); filter: brightness(1.12); }
+button:active:not(:disabled) { transform: translateY(3px); box-shadow: inset 0 -2px 0 rgba(0,0,0,0.35), inset 0 3px 0 rgba(255,255,255,0.12), 0 1px 0 var(--edge); }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--edge); font-family: var(--font-display); font-size: 22px; box-shadow: inset 0 -5px 0 #c27d00, inset 0 4px 0 #ffe08a, 0 5px 0 var(--edge); text-shadow: 1px 1px 0 rgba(255,255,255,0.35); }
+button.primary:hover:not(:disabled) { background: var(--accent); border-color: var(--edge); }
+button.primary:active:not(:disabled) { transform: translateY(4px); box-shadow: inset 0 -3px 0 #c27d00, inset 0 4px 0 #ffe08a, 0 1px 0 var(--edge); }
+.upg button.can, .wk-btns button.can { background: #3d6b2f; color: #eaffd8; border-color: var(--edge); }
+button:disabled { opacity: 1; background: #231a14; color: #6f5e4d; box-shadow: inset 0 0 0 2px #2f241c; }
+button.link { background: none; border: none; box-shadow: none; color: var(--muted); }
+.mute { box-shadow: inset 0 -3px 0 rgba(0,0,0,0.35), 0 3px 0 var(--edge); min-height: 30px; }
+.bag li, .upg, .cdx { border-top: 2px dashed var(--line); }
+.bag .sw, .cdx .sw { border-radius: 0; box-shadow: inset -3px -3px 0 rgba(0,0,0,0.3), inset 3px 3px 0 rgba(255,255,255,0.3), 0 0 0 2px var(--edge); width: 16px; height: 16px; }
+.report { border-left: 6px solid var(--accent); background: var(--panel); padding: 10px 12px; box-shadow: 0 4px 0 var(--edge); border: 3px solid var(--edge); border-left: 6px solid var(--accent); }
+.report b { font-family: var(--font-display); }
+.upg .nm, .wk-info b { color: var(--ink); }
+.wk-info b { color: var(--accent); }
+.wk { border-radius: 0; border: 2px dashed var(--line); }
+.wk.on { border: 3px solid var(--edge); background: #3a2c21; box-shadow: inset 0 -4px 0 rgba(0,0,0,0.3); }
+.bar { height: 16px; border-radius: 0; border: 3px solid var(--edge); background: #0b0806; box-shadow: 0 3px 0 var(--edge); }
+.bar i { background: repeating-linear-gradient(90deg, var(--accent) 0 8px, #e29a10 8px 10px); }
+.bar.low i { background: repeating-linear-gradient(90deg, var(--warn) 0 8px, #c9402f 8px 10px); }
+canvas { border-radius: 0; image-rendering: pixelated; box-shadow: 0 0 0 3px var(--edge), 0 0 0 6px var(--line), 0 8px 0 6px var(--edge); }
+.board { padding: 6px 6px 8px; }
+.dpad button { font-size: 18px; }
+.bar i { background: repeating-linear-gradient(90deg, #5fd8ea 0 8px, #3fb4c8 8px 10px); }
+.bar.low i { background: repeating-linear-gradient(90deg, var(--warn) 0 8px, #c9402f 8px 10px); }
+.ico { width: 44px; height: 44px; flex: none; image-rendering: pixelated; background: #1b130e; border: 3px solid var(--edge); box-shadow: inset 0 0 0 2px var(--line); padding: 3px; box-sizing: border-box; }
+.upg .info .ef { text-wrap: pretty; }
+</style>
+
+<main class="app">
+  <header>
+    <h1>쿵쿵 광산</h1>
+    <div class="hright">
+      <button class="mute" id="muteBtn" type="button">소리 켜짐</button>
+      <div class="coins" id="coinBox"><span>코인</span><b id="coins">0</b></div>
+    </div>
+  </header>
+
+  <section id="base">
+    <p class="report" id="report" hidden></p>
+    <button class="primary" id="startBtn" type="button">채굴 시작</button>
+
+    <div class="panel">
+      <h2>광물 가방 <small id="bagSum"></small></h2>
+      <ul class="bag" id="bagList"></ul>
+      <div class="sellrow">
+        <span id="sellSum"></span>
+        <button id="sellBtn" type="button">모두 판매</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>의뢰 <small>완료하면 보상</small></h2>
+      <div id="quests"></div>
+    </div>
+
+    <div class="panel">
+      <h2>장비 강화 <small id="bestLabel"></small></h2>
+      <div id="upgrades"></div>
+    </div>
+
+    <div class="panel">
+      <h2>일꾼 <small id="wkCount"></small></h2>
+      <div class="wk-grid" id="wkGrid"></div>
+      <div class="wk-info"><b id="wkRate"></b><span id="wkPend"></span></div>
+      <div class="wk-btns">
+        <button id="wkCollect" type="button">코인 수거</button>
+        <button id="wkHire" type="button">고용</button>
+      </div>
+      <p class="tip">일꾼은 내가 광산에 내려가 있지 않아도 일해요. 쌓인 코인은 최대 60분어치까지 저장돼요.</p>
+    </div>
+
+    <div class="panel">
+      <h2>광물 도감 <small id="codexSum"></small></h2>
+      <div id="codex"></div>
+    </div>
+
+    <p class="tip">땅속에는 산소 결정(산소 회복), 보물 상자(코인), 가스 주머니(산소 감소)가 숨어 있어요.</p>
+    <p class="tip">채굴 중에는 방향키나 W A S D를 누르고 있거나, 화면을 누른 채 가고 싶은 쪽에 손가락을 대고 있으세요. 막힌 땅은 자동으로 파요. 깊이 내려갈수록 산소가 더 빨리 줄어요. 산소가 떨어지면 지상으로 돌아오고, 캔 광물은 그대로 가져와요.</p>
+    <button class="link" id="resetBtn" type="button">기록 초기화</button>
+  </section>
+
+  <section id="mine" hidden>
+    <div class="hud">
+      <div class="hudrow"><span>깊이 <b id="depth">0</b> m <span class="layer" id="layer"></span></span><span>가방 <b id="bagHud">0/8</b></span></div>
+      <div class="bar" id="bar"><i id="barFill"></i></div>
+      <div class="hudrow"><span>산소 <span class="layer" id="o2rate"></span></span><b id="timeHud">100 / 100</b></div>
+    </div>
+    <div class="board"><canvas id="cv" tabindex="0" aria-label="광산 화면. 방향키로 이동하며 땅을 팝니다."></canvas></div>
+    <div class="controls">
+      <button id="returnBtn" type="button">지금 귀환</button>
+      <p class="keys">방향키 또는 W A S D</p>
+      <div class="dpad" aria-label="방향 버튼">
+        <button class="u" data-d="0" type="button" aria-label="위">▲</button>
+        <button class="l" data-d="3" type="button" aria-label="왼쪽">◀</button>
+        <button class="d" data-d="2" type="button" aria-label="아래">▼</button>
+        <button class="r" data-d="1" type="button" aria-label="오른쪽">▶</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var W = 15, H = 140, COLS = 9, ROWS = 10, SAVE = "kung-mine-v1";
+  var DX = [0, 1, 0, -1], DY = [-1, 0, 1, 0];
+  var cv = $("cv"), ctx = cv.getContext("2d");
+
+  var ORES = [
+    { id: "coal", name: "석탄", v: 6, min: 1, max: 45, p: 0.07, hard: 0, c: "#22222a", hi: "#5d5d6c" },
+    { id: "copper", name: "구리", v: 14, min: 4, max: 80, p: 0.045, hard: 0.1, c: "#e08a45", hi: "#ffd3a8" },
+    { id: "iron", name: "철", v: 32, min: 12, max: 100, p: 0.04, hard: 0.2, c: "#cfc8c0", hi: "#ffffff" },
+    { id: "silver", name: "은", v: 85, min: 24, max: 140, p: 0.03, hard: 0.3, c: "#dbe8f3", hi: "#ffffff" },
+    { id: "gold", name: "금", v: 220, min: 40, max: 140, p: 0.026, hard: 0.4, c: "#ffcb2f", hi: "#fff3b0" },
+    { id: "ruby", name: "루비", v: 650, min: 62, max: 140, p: 0.018, hard: 0.5, c: "#ff3d63", hi: "#ffc2cf" },
+    { id: "diamond", name: "다이아몬드", v: 2200, min: 88, max: 140, p: 0.012, hard: 0.6, c: "#6ff0ff", hi: "#e8ffff" }
+  ];
+  var LAYERS = [
+    { to: 14, name: "흙", h: 0.6, a: "#7a5434", b: "#68472b" },
+    { to: 34, name: "돌", h: 1.4, a: "#76747b", b: "#64626a" },
+    { to: 64, name: "단단한 바위", h: 3, a: "#5a5762", b: "#4a4752" },
+    { to: 99, name: "심층", h: 5.5, a: "#4d3b66", b: "#3e2f55" },
+    { to: 999, name: "마그마 지대", h: 8, a: "#80392a", b: "#6a2d21" }
+  ];
+  function layerAt(y) { for (var i = 0; i < LAYERS.length; i++) if (y <= LAYERS[i].to) return LAYERS[i]; return LAYERS[LAYERS.length - 1]; }
+
+  var UPG = [
+    { k: "drill", name: "드릴", base: 40, g: 1.55, eff: function (l) { return 1 + 0.4 * (l - 1); }, d: "채굴 속도", fmt: function (v) { return "×" + v.toFixed(1); } },
+    { k: "time", name: "산소통", base: 60, g: 1.7, eff: function (l) { return 100 + 20 * (l - 1); }, d: "산소 용량", fmt: function (v) { return String(v); } },
+    { k: "bag", name: "광물 가방", base: 50, g: 1.6, eff: function (l) { return 8 + 4 * (l - 1); }, d: "수납", fmt: function (v) { return v + "칸"; } },
+    { k: "move", name: "튼튼한 장화", base: 70, g: 1.7, eff: function (l) { return 1 + 0.1 * (l - 1); }, d: "이동 속도", fmt: function (v) { return "×" + v.toFixed(1); } }
+  ];
+  // equipment looks change every 3 levels
+  var TIERNAME = {
+    drill: ["철 드릴", "강철 드릴", "황금 드릴", "루비 드릴", "다이아 드릴"],
+    time: ["기본 산소통", "강화 산소통", "알루미늄 산소통", "티타늄 산소통", "심해 산소통"],
+    bag: ["헝겊 가방", "가죽 가방", "철제 가방", "마법 가방", "차원 가방"],
+    move: ["고무 장화", "가죽 장화", "철 장화", "로켓 장화", "황금 장화"]
+  };
+  var PAL = {
+    drill: [["#c4c9d1", "#aab0ba", "#7d838e"], ["#a9c8f5", "#7fa6dc", "#5a7fb8"], ["#ffe07a", "#ffc43a", "#c28f10"], ["#ff8aa0", "#ff5a78", "#b52b48"], ["#c4faff", "#7ff3ff", "#34aebf"]],
+    time: [["#ffb52e", "#c27d00", "#ffd773"], ["#58c4d8", "#2f8fa3", "#a8ecf7"], ["#d7dde6", "#8b93a1", "#ffffff"], ["#ffd04a", "#c28f10", "#fff0a8"], ["#7ff3ff", "#34aebf", "#e0ffff"]],
+    bag: [["#8d7a5a", "#6c5b40", "#b09d7a"], ["#a8744a", "#7d5232", "#cf9a6c"], ["#8a909a", "#626873", "#b9bfc9"], ["#6a5acd", "#4a3da0", "#9b8df0"], ["#b36cff", "#7d3fc4", "#dcb0ff"]],
+    move: [["#6b4426", "#4a2e18", "#8d5c33"], ["#8a8f99", "#5f646e", "#b0b5bf"], ["#4f8fe0", "#2f62a8", "#86b6f2"], ["#46b86a", "#2b8248", "#82dd9d"], ["#ffd04a", "#c28f10", "#fff0a8"]]
+  };
+  function tierOfLv(l) { return Math.min(4, Math.floor((l - 1) / 3)); }
+  function tierOf(k) { return tierOfLv(S.lv[k]); }
+  function upgCost(u, l) { return Math.round(u.base * Math.pow(u.g, l - 1)); }
+
+  // ---- sound (Web Audio, starts after the first tap) ----
+  var AC = null, noiseBuf = null;
+  function audio() {
+    if (S.mute) return null;
+    if (!AC) { try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
+    if (AC.state === "suspended") { try { AC.resume(); } catch (e) {} }
+    return AC;
+  }
+  function tone(freq, dur, type, vol, slide) {
+    var a = audio(); if (!a) return;
+    var o = a.createOscillator(), g = a.createGain(), t = a.currentTime;
+    o.type = type || "square"; o.frequency.setValueAtTime(freq, t);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(30, freq * slide), t + dur);
+    g.gain.setValueAtTime(vol || 0.05, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(a.destination); o.start(); o.stop(t + dur + 0.02);
+  }
+  function noise(dur, vol, freq) {
+    var a = audio(); if (!a) return;
+    if (!noiseBuf) { noiseBuf = a.createBuffer(1, a.sampleRate, a.sampleRate); var d = noiseBuf.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+    var src = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain(), t = a.currentTime;
+    src.buffer = noiseBuf; f.type = "lowpass"; f.frequency.value = freq;
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(f); f.connect(g); g.connect(a.destination); src.start(); src.stop(t + dur + 0.02);
+  }
+  function later(fn, ms) { setTimeout(fn, ms); }
+  var SFX = {
+    dig: function () { noise(0.05, 0.05, 1800); },
+    brk: function () { noise(0.14, 0.1, 600); tone(120, 0.12, "triangle", 0.07, 0.5); },
+    ore: function (v) { var f = 480 + Math.min(900, Math.log(v + 1) * 130); tone(f, 0.08, "square", 0.04); later(function () { tone(f * 1.5, 0.14, "square", 0.04); }, 70); },
+    full: function () { tone(200, 0.18, "sawtooth", 0.04, 0.6); },
+    sell: function () { tone(988, 0.07, "square", 0.04); later(function () { tone(1319, 0.25, "square", 0.04); }, 80); },
+    buy: function () { tone(440, 0.08, "square", 0.04); later(function () { tone(660, 0.08, "square", 0.04); }, 70); later(function () { tone(880, 0.16, "square", 0.04); }, 140); },
+    warn: function () { tone(660, 0.08, "square", 0.04); },
+    start: function () { tone(300, 0.14, "square", 0.04, 1.8); },
+    end: function () { tone(330, 0.25, "triangle", 0.06, 0.6); }
+  };
+
+  // ---- save data ----
+  var S = { coins: 0, lv: { drill: 1, time: 1, bag: 1, move: 1 }, best: 0, bag: {}, found: {}, mute: false, workers: 0, wPend: 0, wLast: Date.now(), quests: [] };
+  function load() {
+    try {
+      var r = localStorage.getItem(SAVE);
+      if (!r) return;
+      var o = JSON.parse(r);
+      S.coins = Math.max(0, +o.coins || 0);
+      S.best = Math.max(0, +o.best || 0);
+      UPG.forEach(function (u) { S.lv[u.k] = Math.max(1, Math.floor((o.lv && o.lv[u.k]) || 1)); });
+      S.bag = {};
+      ORES.forEach(function (ore) { var c = o.bag && +o.bag[ore.id]; if (c > 0) S.bag[ore.id] = Math.floor(c); });
+      S.found = {};
+      ORES.forEach(function (ore) { if ((o.found && o.found[ore.id]) || S.bag[ore.id]) S.found[ore.id] = true; });
+      S.mute = !!o.mute;
+      S.workers = Math.min(10, Math.max(0, Math.floor(+o.workers || 0)));
+      S.wPend = Math.max(0, +o.wPend || 0);
+      S.wLast = Math.min(Date.now(), +o.wLast || Date.now());
+      S.quests = (Array.isArray(o.quests) ? o.quests : []).filter(function (q) {
+        return q && +q.reward > 0 && (q.t === "depth" ? +q.d > 0 : (q.t === "ore" && +q.n > 0 && ORES.some(function (x) { return x.id === q.o; })));
+      }).slice(0, 3);
+    } catch (e) {}
+  }
+  function save() { try { localStorage.setItem(SAVE, JSON.stringify(S)); } catch (e) {} }
+  function eff(k) { var u = UPG.filter(function (x) { return x.k === k; })[0]; return u.eff(S.lv[k]); }
+  function bagCount() { var n = 0; for (var k in S.bag) n += S.bag[k]; return n; }
+  function bagValue() { var v = 0; ORES.forEach(function (o) { v += (S.bag[o.id] || 0) * o.v; }); return v; }
+  function num(n) { return Math.round(n).toLocaleString("ko-KR"); }
+
+  // ---- world ----
+  var tiles, ore, spec, runCoins = 0;
+  function gen() {
+    tiles = new Uint8Array(W * H);
+    ore = new Int8Array(W * H).fill(-1);
+    spec = new Uint8Array(W * H);
+    for (var y = 0; y < H; y++) {
+      for (var x = 0; x < W; x++) {
+        var i = y * W + x;
+        if (y === 0) { tiles[i] = 0; continue; }
+        if (y === H - 1) { tiles[i] = 2; continue; }
+        tiles[i] = 1;
+        for (var k = ORES.length - 1; k >= 0; k--) {
+          var o = ORES[k];
+          if (y >= o.min && y <= o.max && Math.random() < o.p) { ore[i] = k; break; }
+        }
+        if (ore[i] < 0 && y >= 8) {
+          var q = Math.random();
+          if (q < 0.016) spec[i] = 1;
+          else if (y >= 15 && q < 0.023) spec[i] = 2;
+          else if (y >= 20 && q < 0.035 + y * 0.00008) spec[i] = 3;
+        }
+      }
+    }
+  }
+  function hardAt(x, y) {
+    var i = y * W + x;
+    return layerAt(y).h * (ore[i] >= 0 ? 1 + ORES[ore[i]].hard : 1);
+  }
+  function hash(x, y, k) { return (((Math.imul(x + 11, 73856093) ^ Math.imul(y + 7, 19349663) ^ Math.imul(k + 3, 83492791)) >>> 0) % 1000) / 1000; }
+
+  // ---- run state ----
+  var state = "base", raf = 0, last = 0, nowT = 0;
+  var px, py, fx, fy, moving, dig, facing, timeLeft, maxDepth, runOre, particles, floaters;
+  var started = false, lastBeep = 0, banner = null, shakeT = 0, lastLayer = null, beeped = 0, lastDigSnd = 0, newBestShown = false, carry = 0, faceAng = Math.PI;
+  var ptr = null, padDir = -1, keyStack = [];
+  var ts = 40, camX = 0, camY = 0;
+
+  function startRun() {
+    gen();
+    px = 7; py = 0; fx = 7; fy = 0; moving = null; dig = null; facing = 2;
+    timeLeft = eff("time"); maxDepth = 0; runOre = 0; runCoins = 0; particles = []; floaters = [];
+    started = false; lastBeep = 0; banner = null; shakeT = 0; carry = 0; faceAng = Math.PI; lastLayer = layerAt(1); beeped = 0; newBestShown = false;
+    SFX.start();
+    ptr = null; padDir = -1; keyStack = [];
+    state = "mine";
+    $("base").hidden = true; $("mine").hidden = false;
+    resize();
+    last = performance.now();
+    raf = requestAnimationFrame(loop);
+    try { cv.focus({ preventScroll: true }); } catch (e) {}
+  }
+
+  function endRun(reason) {
+    if (state !== "mine") return;
+    state = "base";
+    cancelAnimationFrame(raf);
+    ptr = null; padDir = -1; keyStack = [];
+    var newBest = maxDepth > S.best;
+    if (newBest) S.best = maxDepth;
+    var qd = 0, qn = 0;
+    S.quests = S.quests.map(function (q) {
+      if (q.t === "depth" && maxDepth >= q.d) { qd += q.reward; qn++; return genQuest(); }
+      return q;
+    });
+    S.coins += qd;
+    save();
+    SFX.end();
+    var r = $("report");
+    r.hidden = false;
+    r.innerHTML = "<b></b><span></span>";
+    r.firstChild.textContent = reason + (newBest ? " 최고 깊이 신기록!" : "");
+    r.lastChild.textContent = (runOre > 0 ? "최고 깊이 " + maxDepth + " m · 광물 " + runOre + "개를 캤어요." : "최고 깊이 " + maxDepth + " m · 이번에는 광물 없이 돌아왔어요.") + (runCoins > 0 ? " 보물 상자에서 " + num(runCoins) + " 코인을 얻었어요." : "") + (qn ? " 의뢰 " + qn + "건 완료, +" + num(qd) + " 코인." : "");
+    $("mine").hidden = true; $("base").hidden = false;
+    renderBase(); showCoins(true);
+    window.scrollTo(0, 0);
+  }
+
+  function startMove(tx, ty) {
+    started = true;
+    var t0 = Math.min(0.9, carry / (0.16 / eff("move")));
+    carry = 0;
+    moving = { fx: px, fy: py, tx: tx, ty: ty, t: t0 };
+    fx = px + (tx - px) * t0; fy = py + (ty - py) * t0;
+  }
+
+  function breakBlock(x, y) {
+    var i = y * W + x, oi = ore[i], L = layerAt(y);
+    var sp = spec[i]; spec[i] = 0;
+    tiles[i] = 0; ore[i] = -1;
+    var n = oi >= 0 || sp ? 9 : 5;
+    for (var k = 0; k < n; k++) {
+      var col = oi >= 0 && k % 2 ? ORES[oi].c : (Math.random() < 0.5 ? L.a : L.b);
+      var lf = 0.45 + Math.random() * 0.3;
+      particles.push({ x: x + 0.5, y: y + 0.5, vx: (Math.random() - 0.5) * 3.2, vy: -Math.random() * 2.4 - 0.3, life: lf, max: lf, c: col });
+    }
+    shakeT = oi >= 0 || sp ? 0.18 : 0;
+    SFX.brk();
+    if (sp === 1) {
+      timeLeft = Math.min(eff("time"), timeLeft + eff("time") * 0.18);
+      floaters.push({ x: x + 0.5, y: y, t: 1, text: "+산소", c: "#5fd8ea" }); SFX.ore(300);
+    } else if (sp === 2) {
+      var cv3 = Math.round((30 + y * 4) * (0.6 + Math.random() * 0.8));
+      S.coins += cv3; runCoins += cv3;
+      floaters.push({ x: x + 0.5, y: y, t: 1.2, text: "보물 +" + cv3, c: "#ffd773" }); SFX.sell();
+    } else if (sp === 3) {
+      timeLeft = Math.max(1, timeLeft - eff("time") * 0.12); shakeT = 0.3;
+      floaters.push({ x: x + 0.5, y: y, t: 1.2, text: "가스 누출! 산소 -", c: "#ff8a6e" }); SFX.full();
+    }
+    if (oi >= 0) {
+      var o = ORES[oi];
+      S.found[o.id] = true;
+      if (bagCount() < eff("bag")) {
+        S.bag[o.id] = (S.bag[o.id] || 0) + 1; runOre++;
+        floaters.push({ x: x + 0.5, y: y, t: 1, text: "+" + o.name, c: o.c === "#22222a" ? "#9a9aad" : o.c });
+        SFX.ore(o.v);
+      } else {
+        floaters.push({ x: x + 0.5, y: y, t: 1, text: "가방 가득!", c: "#ff6b57" });
+        SFX.full();
+      }
+    }
+  }
+
+  function currentDir() {
+    if (ptr) {
+      var cx = (fx + 0.5 - camX) * ts, cy = (fy + 0.5 - camY) * ts;
+      var dx = ptr.x - cx, dy = ptr.y - cy;
+      if (Math.hypot(dx, dy) < ts * 0.35) return -1;
+      return Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0);
+    }
+    if (padDir >= 0) return padDir;
+    if (keyStack.length) return keyStack[keyStack.length - 1];
+    return -1;
+  }
+
+  function onDepth() {
+    var L = layerAt(maxDepth);
+    if (L !== lastLayer) {
+      lastLayer = L;
+      banner = { text: L.name + (L.name.indexOf("지대") < 0 ? " 지대" : ""), sub: maxDepth + " m", t: 2.2 };
+    }
+    if (S.best > 0 && maxDepth > S.best && !newBestShown) {
+      newBestShown = true;
+      floaters.push({ x: px + 0.5, y: py - 0.5, t: 1.4, text: "최고 깊이 경신!", c: "#ffb02e" });
+    }
+  }
+
+  var O2_BASE = 3.3;
+  function o2Rate() { return O2_BASE * (1 + Math.max(0, py) * 0.02); }
+  function update(dt) {
+    if (started) timeLeft -= dt * o2Rate();
+    if (started && timeLeft > 0 && timeLeft / eff("time") < 0.15 && nowT - lastBeep > 700) { lastBeep = nowT; SFX.warn(); }
+    if (timeLeft <= 0) { timeLeft = 0; endRun("산소가 바닥났어요! 지상으로 긴급 복귀했어요."); return; }
+    shakeT = Math.max(0, shakeT - dt);
+    if (banner) { banner.t -= dt; if (banner.t <= 0) banner = null; }
+    var moveTime = 0.16 / eff("move");
+    if (moving) {
+      moving.t += dt / moveTime;
+      if (moving.t >= 1) {
+        carry = (moving.t - 1) * moveTime;
+        px = moving.tx; py = moving.ty; fx = px; fy = py; moving = null;
+        if (py > maxDepth) { maxDepth = py; onDepth(); }
+      } else {
+        fx = moving.fx + (moving.tx - moving.fx) * moving.t;
+        fy = moving.fy + (moving.ty - moving.fy) * moving.t;
+      }
+    }
+    if (!moving) {
+      var d = currentDir();
+      if (d >= 0) {
+        facing = d;
+        var nx = px + DX[d], ny = py + DY[d];
+        if (nx >= 0 && nx < W && ny >= 0 && ny < H && tiles[ny * W + nx] !== 2) {
+          if (tiles[ny * W + nx] === 1) {
+            started = true;
+            if (!dig || dig.x !== nx || dig.y !== ny) dig = { x: nx, y: ny, p: 0 };
+            dig.p += dt * eff("drill") / hardAt(nx, ny);
+            if (nowT - lastDigSnd > 130) { lastDigSnd = nowT; SFX.dig(); }
+            if (dig.p >= 1) { breakBlock(nx, ny); dig = null; startMove(nx, ny); }
+          } else {
+            dig = null; startMove(nx, ny);
+          }
+        }
+      }
+    }
+    if (!moving) carry = 0;
+    for (var i = particles.length - 1; i >= 0; i--) {
+      var p = particles[i];
+      p.life -= dt; p.vy += 9 * dt; p.x += p.vx * dt; p.y += p.vy * dt;
+      if (p.life <= 0) particles.splice(i, 1);
+    }
+    for (var j = floaters.length - 1; j >= 0; j--) {
+      floaters[j].t -= dt * 0.9; floaters[j].y -= dt * 0.8;
+      if (floaters[j].t <= 0) floaters.splice(j, 1);
+    }
+  }
+
+  // ---- drawing ----
+  function resize() {
+    var w = cv.clientWidth;
+    if (!w) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 3);
+    var k = Math.max(1, Math.round(w * dpr / (COLS * PX)));
+    cv.width = COLS * PX * k;
+    cv.height = ROWS * PX * k;
+    ts = w / COLS;
+  }
+
+  // ---- pixel-art renderer: world is drawn at 16px per tile, then scaled up without smoothing ----
+  var PX = 16, WCV = document.createElement("canvas");
+  WCV.width = COLS * PX; WCV.height = ROWS * PX;
+  var g = WCV.getContext("2d");
+  function mk() { var c = document.createElement("canvas"); c.width = PX; c.height = PX; return c; }
+  function rng(seed) { var q = seed >>> 0; return function () { q = (Math.imul(q, 1664525) + 1013904223) >>> 0; return q / 4294967296; }; }
+  function R(c, x, y, w, h, col) { c.fillStyle = col; c.fillRect(x, y, w, h); }
+  function layerIdx(y) { for (var i = 0; i < LAYERS.length; i++) if (y <= LAYERS[i].to) return i; return LAYERS.length - 1; }
+
+  function buildTile(L, seed) {
+    var cv2 = mk(), c = cv2.getContext("2d"), r = rng(seed), i;
+    R(c, 0, 0, PX, PX, L.a);
+    for (i = 0; i < 16; i++) R(c, (r() * 15) | 0, (r() * 15) | 0, 1 + (r() < 0.4 ? 1 : 0), 1, L.b);
+    for (i = 0; i < 5; i++) R(c, (r() * 15) | 0, (r() * 15) | 0, 1, 1, "rgba(255,255,255,0.12)");
+    R(c, 0, 0, PX, 1, "rgba(255,255,255,0.14)"); R(c, 0, 0, 1, PX, "rgba(255,255,255,0.08)");
+    R(c, 0, PX - 1, PX, 1, "rgba(0,0,0,0.3)"); R(c, PX - 1, 0, 1, PX, "rgba(0,0,0,0.22)");
+    return cv2;
+  }
+  function buildOre(o, seed) {
+    var cv2 = mk(), c = cv2.getContext("2d"), r = rng(seed), spots = [[3, 3], [9, 5], [4, 9]];
+    for (var i = 0; i < 3; i++) {
+      var x = spots[i][0] + ((r() * 3) | 0) - 1, y = spots[i][1] + ((r() * 3) | 0) - 1;
+      R(c, x + 2, y + 3, 3, 1, "rgba(0,0,0,0.35)");
+      R(c, x + 1, y, 2, 1, o.c); R(c, x, y + 1, 4, 1, o.c); R(c, x + 1, y + 2, 2, 1, o.c);
+      if (o.id === "diamond") R(c, x + 1, y - 1, 2, 1, o.hi);
+      R(c, x + 1, y + 1, 1, 1, o.hi);
+    }
+    return cv2;
+  }
+  var CR = [[[8, 2], [7, 3], [7, 4], [8, 5], [8, 6]], [[6, 6], [5, 7], [9, 7], [10, 8]], [[4, 10], [11, 10], [7, 9], [8, 10], [7, 11]]];
+  var tileSp = LAYERS.map(function (L, li) { return [0, 1, 2].map(function (v) { return buildTile(L, li * 31 + v * 7 + 3); }); });
+  var bedSp = [0, 1, 2].map(function (v) { return buildTile({ a: "#2c2733", b: "#221e28" }, 900 + v); });
+  var oreSp = ORES.map(function (o, k) { return [0, 1, 2].map(function (v) { return buildOre(o, k * 17 + v * 5 + 1); }); });
+  var crackSp = [0, 1, 2].map(function (st) {
+    var c2 = mk(), c = c2.getContext("2d");
+    for (var q = 0; q <= st; q++) CR[q].forEach(function (pt) { R(c, pt[0], pt[1], 1, 1, "rgba(0,0,0,0.6)"); });
+    return c2;
+  });
+  var cavSp = [0, 1].map(function (v) {
+    var c2 = mk(), c = c2.getContext("2d"), r = rng(70 + v);
+    R(c, 0, 0, PX, PX, "#1c1411");
+    for (var i = 0; i < 7; i++) R(c, (r() * 15) | 0, (r() * 15) | 0, 1, 1, "#271c16");
+    return c2;
+  });
+  var grassSp = (function () {
+    var c2 = mk(), c = c2.getContext("2d"), r = rng(5);
+    R(c, 0, 0, PX, 3, "#5fae45"); R(c, 0, 0, PX, 1, "#86d466"); R(c, 0, 2, PX, 1, "#4a9137");
+    for (var i = 0; i < PX; i++) R(c, i, 3, 1, 1 + (r() < 0.45 ? 1 : 0), "#4a9137");
+    return c2;
+  })();
+
+  var specSp = [
+    (function () { var c2 = mk(), c = c2.getContext("2d");
+      R(c, 3, 3, 10, 11, "rgba(95,216,234,0.16)");
+      [[7, 2, 2], [6, 3, 4], [5, 4, 6], [5, 5, 6], [6, 6, 4], [7, 7, 2]].forEach(function (q) { R(c, q[0], q[1] + 3, q[2], 1, "#5fd8ea"); });
+      R(c, 6, 7, 1, 2, "#d8fbff"); R(c, 9, 8, 2, 2, "#2a97ab"); R(c, 7, 11, 2, 1, "rgba(0,0,0,0.3)"); return c2; })(),
+    (function () { var c2 = mk(), c = c2.getContext("2d");
+      R(c, 2, 5, 12, 1, "#2b1a0d"); R(c, 2, 5, 1, 9, "#2b1a0d"); R(c, 13, 5, 1, 9, "#2b1a0d"); R(c, 2, 13, 12, 1, "#2b1a0d");
+      R(c, 3, 6, 10, 7, "#8a5a33"); R(c, 3, 6, 10, 2, "#b27a43"); R(c, 3, 8, 10, 1, "#4a2e18");
+      R(c, 7, 6, 2, 7, "#ffb52e"); R(c, 7, 8, 2, 2, "#ffe08a"); R(c, 4, 6, 3, 1, "#d09a5d"); return c2; })(),
+    (function () { var c2 = mk(), c = c2.getContext("2d");
+      R(c, 2, 3, 12, 11, "rgba(70,130,40,0.35)");
+      [[3, 7, 5], [8, 3, 4], [8, 9, 5]].forEach(function (b) {
+        R(c, b[0] + 1, b[1], b[2] - 2, 1, "#7fd05a"); R(c, b[0], b[1] + 1, b[2], b[2] - 2, "#7fd05a"); R(c, b[0] + 1, b[1] + b[2] - 1, b[2] - 2, 1, "#7fd05a");
+        R(c, b[0] + 1, b[1] + 1, 1, 1, "#d6ffb8");
+      });
+      return c2; })()
+  ];
+
+  function drawTile(x, y, sx, sy) {
+    var i = y * W + x, t = tiles[i], v = (x * 3 + y * 5) % 3;
+    if (t === 0) {
+      g.drawImage(cavSp[(x + y) & 1], sx, sy);
+      g.fillStyle = "rgba(0,0,0,0.4)";
+      if (y > 1 && tiles[i - W] !== 0) g.fillRect(sx, sy, PX, 3);
+      if (x > 0 && tiles[i - 1] !== 0) g.fillRect(sx, sy, 3, PX);
+      if (x < W - 1 && tiles[i + 1] !== 0) g.fillRect(sx + PX - 3, sy, 3, PX);
+      return;
+    }
+    g.drawImage(t === 2 ? bedSp[v] : tileSp[layerIdx(y)][v], sx, sy);
+    if (y === 1) g.drawImage(grassSp, sx, sy);
+    if (ore[i] >= 0) {
+      g.drawImage(oreSp[ore[i]][v], sx, sy);
+      if (ORES[ore[i]].v >= 85 && Math.sin(nowT / 450 + x * 7 + y) > 0.9) { g.fillStyle = "#ffffff"; g.fillRect(sx + 3, sy + 3, 3, 1); g.fillRect(sx + 4, sy + 2, 1, 3); }
+    }
+    if (spec[i]) g.drawImage(specSp[spec[i] - 1], sx, sy + (spec[i] === 1 ? Math.round(Math.sin(nowT / 400 + x) * 1) : 0));
+    if (dig && dig.x === x && dig.y === y && dig.p > 0) {
+      g.drawImage(crackSp[dig.p < 0.34 ? 0 : dig.p < 0.67 ? 1 : 2], sx, sy);
+      g.fillStyle = "rgba(0,0,0,0.65)"; g.fillRect(sx + 2, sy + 13, 12, 2);
+      g.fillStyle = "#ffb52e"; g.fillRect(sx + 2, sy + 13, Math.round(12 * dig.p), 2);
+    }
+  }
+
+  // rotate a rect drawn for a downward-facing character to the current facing (about the tile centre)
+  function rr(x, y, w, h, f) {
+    var X = x - 8, Y = y - 8, x2 = X + w, y2 = Y + h, a, b, c2, d;
+    if (f === 2) { a = X; b = Y; c2 = x2; d = y2; }
+    else if (f === 0) { a = -x2; b = -y2; c2 = -X; d = -Y; }
+    else if (f === 1) { a = Y; b = -x2; c2 = y2; d = -X; }
+    else { a = -y2; b = X; c2 = -Y; d = x2; }
+    return [8 + a, 8 + b, c2 - a, d - b];
+  }
+  function drawPlayer(ox, oy) {
+    var f = facing, drilling = dig && !moving, step = moving ? (Math.floor(nowT / 100) % 2) : 0;
+    var bob = moving && step ? -1 : 0;
+    g.save(); g.translate(ox, oy + bob);
+    var td = tierOf("drill"), th = tierOf("time"), tb = tierOf("move"), tg = tierOf("bag");
+    var DP = PAL.drill[td], HP = PAL.time[th], BP = PAL.move[tb][0], GP = PAL.bag[tg];
+    var drill = function () {
+      var st = drilling && Math.floor(nowT / 70) % 2;
+      var parts = [[6, 11, 4, 2, DP[0]], [6, 13, 4, 1, DP[1]], [7, 14, 2, 1, DP[2]], [7, 15, 2, 1, DP[2]], [6, st ? 12 : 13, 4, 1, DP[2]]];
+      parts.forEach(function (q) { var o = rr(q[0], q[1], q[2], q[3], f); R(g, o[0], o[1], o[2], o[3], q[4]); });
+    };
+    if (f === 0) drill();
+    R(g, 5, 12, 2, 2 - (step ? 1 : 0), "#27598f"); R(g, 9, 12, 2, 2 - (step ? 0 : 1), "#27598f");
+    R(g, 4, 14 - (step ? 1 : 0), 3, 1, BP); R(g, 9, 14 - (step ? 0 : 1), 3, 1, BP);
+    R(g, tg >= 3 ? 1 : 2, 8, tg >= 3 ? 3 : 2, 4, GP[1]); R(g, tg >= 3 ? 1 : 2, 8, tg >= 3 ? 3 : 2, 1, GP[2]); R(g, 2, 11, 2, 1, GP[0]);
+    R(g, 3, 8, 1, 3, "#2f6fbf"); R(g, 12, 8, 1, 3, "#2f6fbf");
+    R(g, 4, 7, 8, 6, "#3b82d6"); R(g, 4, 7, 8, 1, "#6fb0ff"); R(g, 4, 12, 8, 1, "#2a62a8"); R(g, 7, 9, 2, 2, "#ffb52e");
+    R(g, 5, 3, 6, 5, f === 0 ? "#d6a77c" : "#f2c9a0");
+    if (f === 2) { R(g, 6, 5, 1, 1, "#2a1700"); R(g, 9, 5, 1, 1, "#2a1700"); }
+    else if (f === 1) R(g, 9, 5, 1, 1, "#2a1700");
+    else if (f === 3) R(g, 6, 5, 1, 1, "#2a1700");
+    R(g, 4, 1, 8, 3, HP[0]); R(g, 4, 3, 8, 1, HP[1]); R(g, 5, 1, 3, 1, HP[2]); R(g, 7, 0, 2, 1, "#fff6c8");
+    if (th >= 2) { R(g, 3, 2, 1, 2, HP[1]); R(g, 12, 2, 1, 2, HP[1]); }
+    if (f !== 0) drill();
+    g.restore();
+  }
+
+  function drawSurface(gyp) {
+    var Wd = WCV.width, i, k;
+    var bands = ["#4f9fd0", "#66b0da", "#80c1e2", "#9fd3ea", "#bfe5ef"], bh = Math.max(4, Math.ceil(gyp / 5));
+    for (i = 0; i < 5; i++) R(g, 0, i * bh, Wd, bh + 1, bands[i]);
+    var sxp = Math.round((11.3 - camX) * PX), syp = Math.round((-0.9 - camY) * PX), wid = [4, 8, 10, 12, 12, 12, 12, 10, 8, 4];
+    R(g, sxp - 9, syp - 2, 18, 14, "rgba(255,240,170,0.28)");
+    for (i = 0; i < wid.length; i++) R(g, sxp - wid[i] / 2, syp + i, wid[i], 1, i < 3 ? "#fff0a8" : "#ffdd66");
+    for (k = 0; k < 3; k++) {
+      var cx = Math.round(((k * 62 + nowT / 110) % (Wd + 60)) - 30), cy = Math.round((-1.8 + (k % 2) * 0.8 - camY) * PX);
+      R(g, cx, cy + 4, 26, 6, "#f4fbff"); R(g, cx + 4, cy, 12, 6, "#f4fbff"); R(g, cx + 14, cy + 2, 10, 6, "#f4fbff"); R(g, cx, cy + 9, 26, 1, "#cfe4ee");
+    }
+    for (i = 0; i < Wd; i += 4) {
+      var wx = i + camX * PX;
+      var h1 = 14 + Math.round(5 * Math.sin(wx / 23)), h2 = 6 + Math.round(3 * Math.sin(wx / 11 + 2));
+      R(g, i, gyp - h1, 4, h1, "#5f9a52"); R(g, i, gyp - h2, 4, h2, "#7fbd69");
+    }
+    var x = Math.round((3 - camX) * PX);
+    R(g, x, gyp - 14, 28, 14, "#a8744a"); R(g, x, gyp - 10, 28, 1, "#8a5c39"); R(g, x, gyp - 5, 28, 1, "#8a5c39");
+    for (i = 0; i < 7; i++) { R(g, x - 3 + 2 * i, gyp - 16 - 2 * i, 34 - 4 * i, 2, "#c2463a"); R(g, x - 3 + 2 * i, gyp - 15 - 2 * i, 34 - 4 * i, 1, "#a63a30"); }
+    R(g, x + 4, gyp - 9, 6, 9, "#5a3a22"); R(g, x + 8, gyp - 5, 1, 1, "#ffb52e");
+    R(g, x + 16, gyp - 10, 7, 6, "#ffe9a8"); R(g, x + 19, gyp - 10, 1, 6, "#5a3a22"); R(g, x + 16, gyp - 8, 7, 1, "#5a3a22");
+    var ex = Math.round((7 - camX) * PX);
+    R(g, ex, gyp - 16, 2, 16, "#7a4e2a"); R(g, ex + 14, gyp - 16, 2, 16, "#7a4e2a"); R(g, ex - 2, gyp - 19, 20, 3, "#8d5c33"); R(g, ex - 2, gyp - 17, 20, 1, "#5d3a1f");
+    R(g, ex + 7, gyp - 16, 2, 2, "#ffb52e");
+  }
+
+  function draw() {
+    var cw = cv.clientWidth, ch = cv.clientHeight, r = cv.width / cw, i, x, y;
+    camX = Math.min(Math.max(fx + 0.5 - COLS / 2, 0), W - COLS);
+    camY = Math.min(Math.max(fy + 0.5 - ROWS / 2, -2), H - ROWS + 1);
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.fillStyle = "#1c1411"; g.fillRect(0, 0, WCV.width, WCV.height);
+    var sk = shakeT > 0 ? shakeT / 0.18 : 0;
+    g.save();
+    if (sk) g.translate(Math.round(Math.sin(nowT * 0.09) * sk * 1.6), Math.round(Math.cos(nowT * 0.11) * sk * 1.3));
+    var gyp = Math.round((1 - camY) * PX);
+    if (gyp > 0) drawSurface(gyp);
+    var y0 = Math.max(1, Math.floor(camY)), y1 = Math.min(H - 1, Math.ceil(camY + ROWS));
+    var x0 = Math.floor(camX), x1 = Math.min(W - 1, Math.ceil(camX + COLS));
+    for (y = y0; y <= y1; y++) for (x = x0; x <= x1; x++) drawTile(x, y, Math.round((x - camX) * PX), Math.round((y - camY) * PX));
+    for (i = 0; i < particles.length; i++) {
+      var p = particles[i], big = p.life / p.max > 0.5 ? 2 : 1;
+      g.fillStyle = p.c; g.fillRect(Math.round((p.x - camX) * PX), Math.round((p.y - camY) * PX), big, big);
+    }
+    var ox = Math.round((fx - camX) * PX), oy = Math.round((fy - camY) * PX);
+    drawPlayer(ox, oy);
+    var a = Math.min(0.84, Math.max(0, (fy - 1) / 80));
+    if (a > 0.01) {
+      var fl = 1 + Math.sin(nowT / 170) * 0.02;
+      var wg = g.createRadialGradient(ox + 8, oy + 5, 0, ox + 8, oy + 5, 38);
+      wg.addColorStop(0, "rgba(255,196,110,0.15)"); wg.addColorStop(1, "rgba(255,196,110,0)");
+      g.fillStyle = wg; g.fillRect(ox - 32, oy - 34, 80, 80);
+      var rg = g.createRadialGradient(ox + 8, oy + 8, 20 * fl, ox + 8, oy + 8, 80 * fl);
+      rg.addColorStop(0, "rgba(10,6,4,0)"); rg.addColorStop(1, "rgba(10,6,4," + a + ")");
+      g.fillStyle = rg; g.fillRect(-4, -4, WCV.width + 8, WCV.height + 8);
+    }
+    g.restore();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(WCV, 0, 0, WCV.width, WCV.height, 0, 0, cv.width, cv.height);
+    ctx.setTransform(r, 0, 0, r, 0, 0);
+    ctx.font = "400 " + Math.round(ts * 0.34) + "px Gugi, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
+    ctx.textAlign = "center"; ctx.lineJoin = "round";
+    for (var j = 0; j < floaters.length; j++) {
+      var f = floaters[j], fxp = (f.x - camX) * ts, fyp = (f.y - camY) * ts;
+      ctx.globalAlpha = Math.min(1, f.t * 1.6);
+      var fs = 1 + Math.max(0, f.t - 0.8) * 0.5;
+      ctx.save(); ctx.translate(fxp, fyp); ctx.scale(fs, fs);
+      ctx.lineWidth = ts * 0.12; ctx.strokeStyle = "#0b0806"; ctx.strokeText(f.text, 0, 0);
+      ctx.fillStyle = f.c; ctx.fillText(f.text, 0, 0);
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1;
+    if (banner) {
+      var bt = banner.t, inK = Math.min(1, (2.2 - bt) / 0.4), outK = Math.min(1, bt / 0.5);
+      var yo = Math.pow(1 - inK, 3) * ts * 0.35;
+      ctx.globalAlpha = Math.max(0, Math.min(inK, outK));
+      ctx.font = "400 " + Math.round(ts * 0.8) + "px Gugi, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
+      ctx.lineWidth = ts * 0.16; ctx.strokeStyle = "#0b0806"; ctx.strokeText(banner.text, cw / 2, ch * 0.28 + yo);
+      ctx.fillStyle = "#ffb52e"; ctx.fillText(banner.text, cw / 2, ch * 0.28 + yo);
+      ctx.font = "400 " + Math.round(ts * 0.4) + "px Gugi, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
+      ctx.lineWidth = ts * 0.12; ctx.strokeText("깊이 " + banner.sub, cw / 2, ch * 0.28 + ts * 0.55 + yo);
+      ctx.fillStyle = "#f6e9d2"; ctx.fillText("깊이 " + banner.sub, cw / 2, ch * 0.28 + ts * 0.55 + yo);
+      ctx.globalAlpha = 1;
+    }
+    if (!started) {
+      var hy = ch * 0.5 + Math.sin(nowT / 300) * ts * 0.05;
+      ctx.font = "400 " + Math.round(ts * 0.36) + "px Gugi, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
+      ctx.lineWidth = ts * 0.12; ctx.strokeStyle = "#0b0806"; ctx.strokeText("방향키로 땅을 파면 산소가 줄기 시작해요", cw / 2, hy);
+      ctx.fillStyle = "#f6e9d2"; ctx.fillText("방향키로 땅을 파면 산소가 줄기 시작해요", cw / 2, hy);
+    }
+    hud();
+  }
+
+  var hudCache = {};
+  function setText(id, v) { if (hudCache[id] !== v) { hudCache[id] = v; $(id).textContent = v; } }
+  function hud() {
+    setText("depth", String(Math.max(0, py)));
+    setText("layer", py > 0 ? layerAt(py).name : "지상");
+    setText("bagHud", bagCount() + "/" + eff("bag"));
+    $("bagHud").classList.toggle("full", bagCount() >= eff("bag"));
+    setText("timeHud", Math.ceil(timeLeft) + " / " + eff("time"));
+    setText("o2rate", "소모 ×" + (o2Rate() / O2_BASE).toFixed(1));
+    var frac = Math.max(0, timeLeft / eff("time"));
+    $("barFill").style.width = (frac * 100).toFixed(1) + "%";
+    $("bar").classList.toggle("low", frac < 0.25);
+    $("timeHud").classList.toggle("urgent", frac < 0.15);
+  }
+
+  function loop(t) {
+    if (state !== "mine") return;
+    var dt = Math.min(0.05, (t - last) / 1000);
+    last = t; nowT = t;
+    update(dt);
+    if (state !== "mine") return;
+    draw();
+    raf = requestAnimationFrame(loop);
+  }
+
+  // ---- base screen ----
+  // ---- hired workers: slow, expensive passive income ----
+  var MAXW = 10, W_BASE = 3000, W_GROW = 1.75, W_STORE = 3600;
+  var MINER = '<svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="5" y="12" width="2" height="3" fill="#27598f"/><rect x="9" y="12" width="2" height="3" fill="#27598f"/><rect x="4" y="7" width="8" height="6" fill="#3b82d6"/><rect x="4" y="7" width="8" height="1" fill="#6fb0ff"/><rect x="7" y="9" width="2" height="2" fill="#ffb52e"/><rect x="5" y="3" width="6" height="5" fill="#f2c9a0"/><rect x="6" y="5" width="1" height="1" fill="#2a1700"/><rect x="9" y="5" width="1" height="1" fill="#2a1700"/><rect x="4" y="1" width="8" height="3" fill="#ffb52e"/><rect x="4" y="3" width="8" height="1" fill="#c27d00"/><rect x="7" y="0" width="2" height="1" fill="#fff6c8"/><g class="pick"><rect x="11" y="3" width="1" height="11" fill="#8a5a33"/><rect x="8" y="2" width="7" height="1" fill="#c4c9d1"/><rect x="8" y="3" width="1" height="1" fill="#8b909a"/><rect x="14" y="3" width="1" height="1" fill="#8b909a"/></g></svg>';
+  function workerCost(n) { return Math.round(W_BASE * Math.pow(W_GROW, n)); }
+  function wPerMin() { return 90 + 10 * S.lv.drill; }
+  function wRate() { return S.workers * wPerMin() / 60; }
+  function wPend() { var el = Math.max(0, (Date.now() - S.wLast) / 1000); return Math.min(W_STORE * wRate(), S.wPend + el * wRate()); }
+  function wSettle() { S.wPend = wPend(); S.wLast = Date.now(); }
+  var wkDrawn = -1;
+  function updatePend() {
+    var p = wPend(), cap = W_STORE * wRate();
+    $("wkPend").textContent = S.workers ? "쌓인 코인 " + num(p) + " / 최대 " + num(cap) : "아직 고용한 일꾼이 없어요.";
+    $("wkCollect").disabled = Math.floor(p) < 1;
+  }
+  function renderWorkers(popIdx) {
+    if (popIdx !== undefined || wkDrawn !== S.workers) {
+      var g = $("wkGrid"); g.innerHTML = ""; wkDrawn = S.workers;
+      for (var i = 0; i < MAXW; i++) {
+        var d = document.createElement("div");
+        d.className = "wk" + (i < S.workers ? " on" : "") + (i === popIdx ? " pop" : "");
+        if (i < S.workers) { d.innerHTML = MINER; d.querySelector(".pick").style.animationDelay = (-(i * 0.23) % 0.9) + "s"; }
+        g.appendChild(d);
+      }
+    }
+    $("wkCount").textContent = S.workers + " / " + MAXW + "명";
+    $("wkRate").textContent = S.workers ? "분당 " + num(S.workers * wPerMin()) + " 코인" : "한 명당 분당 " + num(wPerMin()) + " 코인";
+    var hb = $("wkHire"), cost = workerCost(S.workers);
+    if (S.workers >= MAXW) { hb.textContent = "최대 고용"; hb.disabled = true; hb.className = ""; }
+    else { hb.textContent = "고용 · " + num(cost); hb.disabled = S.coins < cost; hb.className = S.coins >= cost ? "can" : ""; }
+    updatePend();
+  }
+
+  var coinShown = 0, coinTween = 0;
+  function showCoins(animate) {
+    var el = $("coins");
+    cancelAnimationFrame(coinTween);
+    if (!animate) { coinShown = S.coins; el.textContent = num(S.coins); return; }
+    var from = coinShown, to = S.coins, t0 = performance.now();
+    var box = $("coinBox"); box.classList.remove("pulse"); void box.offsetWidth; box.classList.add("pulse");
+    (function step(t) {
+      var k = Math.min(1, (t - t0) / 500);
+      coinShown = from + (to - from) * (1 - Math.pow(1 - k, 3));
+      el.textContent = num(coinShown);
+      if (k < 1) coinTween = requestAnimationFrame(step); else coinShown = to;
+    })(t0);
+  }
+
+  function genQuest() {
+    var reach = Math.max(12, S.best + 6);
+    if (Math.random() < 0.35) {
+      var tgt = Math.max(10, Math.round((S.best + 8 + Math.random() * 14) / 5) * 5);
+      return { t: "depth", d: tgt, reward: Math.round(tgt * 14 / 5) * 5 };
+    }
+    var pool = [];
+    ORES.forEach(function (o, i) { if (o.min <= reach) pool.push(i); });
+    var oi = pool[(Math.random() * pool.length) | 0], o = ORES[oi];
+    var rg = [[8, 14], [6, 10], [5, 8], [4, 6], [3, 5], [2, 3], [1, 2]][oi];
+    var n = rg[0] + ((Math.random() * (rg[1] - rg[0] + 1)) | 0);
+    return { t: "ore", o: o.id, n: n, reward: Math.round(n * o.v * 1.8 / 5) * 5 };
+  }
+  function ensureQuests() { while (S.quests.length < 3) S.quests.push(genQuest()); }
+  function renderQuests() {
+    var box = $("quests"); box.innerHTML = "";
+    S.quests.forEach(function (q, idx) {
+      var row = document.createElement("div"); row.className = "upg";
+      row.innerHTML = '<div class="info"><div class="nm"></div><div class="ef"></div></div><button type="button"></button>';
+      var nm = row.querySelector(".nm"), ef = row.querySelector(".ef"), b = row.querySelector("button");
+      if (q.t === "depth") {
+        nm.textContent = "깊이 " + q.d + " m 도달";
+        ef.textContent = "한 번의 채굴로 닿으면 자동 완료 · 보상 " + num(q.reward);
+        b.textContent = "최고 " + S.best + " m"; b.disabled = true;
+      } else {
+        var o = ORES.filter(function (x) { return x.id === q.o; })[0], have = S.bag[q.o] || 0;
+        nm.textContent = o.name + " " + q.n + "개 납품";
+        ef.textContent = "가방 " + have + "/" + q.n + " · 보상 " + num(q.reward);
+        b.textContent = "납품"; b.disabled = have < q.n;
+        if (!b.disabled) b.className = "can";
+        b.addEventListener("click", function () {
+          if ((S.bag[q.o] || 0) < q.n) return;
+          S.bag[q.o] -= q.n; if (!S.bag[q.o]) delete S.bag[q.o];
+          S.coins += q.reward; S.quests[idx] = genQuest(); save(); SFX.sell(); showCoins(true); renderBase();
+        });
+      }
+      box.appendChild(row);
+    });
+  }
+
+  function drawIcon(c2, k, t) {
+    var c = c2.getContext("2d"), P = PAL[k][t];
+    c.clearRect(0, 0, 16, 16);
+    if (k === "drill") {
+      R(c, 1, 6, 4, 4, "#8a5a33"); R(c, 5, 5, 5, 6, P[0]); R(c, 5, 10, 5, 1, P[1]); R(c, 10, 6, 3, 4, P[1]); R(c, 13, 7, 2, 2, P[2]); R(c, 6, 5, 1, 6, P[2]); R(c, 8, 5, 1, 6, P[2]);
+    } else if (k === "time") {
+      R(c, 5, 3, 6, 11, P[0]); R(c, 5, 3, 6, 1, P[2]); R(c, 5, 13, 6, 1, P[1]); R(c, 9, 4, 2, 9, P[1]); R(c, 6, 1, 4, 2, "#8b909a"); R(c, 7, 0, 2, 1, "#c4c9d1"); R(c, 5, 7, 6, 1, "rgba(255,255,255,0.35)");
+    } else if (k === "bag") {
+      R(c, 4, 4, 8, 10, P[0]); R(c, 4, 4, 8, 4, P[1]); R(c, 4, 4, 8, 1, P[2]); R(c, 7, 7, 2, 2, "#ffb52e"); R(c, 5, 10, 6, 3, P[1]); R(c, 6, 2, 4, 2, P[1]);
+    } else {
+      R(c, 5, 2, 4, 9, P[0]); R(c, 5, 2, 4, 1, P[2]); R(c, 5, 10, 8, 3, P[0]); R(c, 5, 10, 8, 1, P[2]); R(c, 5, 13, 8, 1, "#2b1a0d"); R(c, 9, 2, 1, 8, P[1]);
+    }
+  }
+
+  function renderBase(flashKey) {
+    var list = $("bagList"), html = "", any = false;
+    list.innerHTML = "";
+    ORES.forEach(function (o) {
+      var c = S.bag[o.id] || 0;
+      if (!c) return;
+      any = true;
+      var li = document.createElement("li");
+      li.innerHTML = '<span class="sw"></span><span class="nm"></span><span class="ct"></span><span class="vl"></span>';
+      li.children[0].style.background = o.c;
+      li.children[1].textContent = o.name;
+      li.children[2].textContent = "×" + c;
+      li.children[3].textContent = num(c * o.v);
+      list.appendChild(li);
+    });
+    if (!any) {
+      var e = document.createElement("li");
+      e.innerHTML = '<p class="empty"></p>';
+      e.firstChild.textContent = "가방이 비었어요. 광산으로 내려가 광물을 캐 오세요.";
+      list.appendChild(e);
+    }
+    $("bagSum").textContent = bagCount() + " / " + eff("bag") + "칸";
+    $("sellSum").textContent = any ? "판매 금액 " + num(bagValue()) : "";
+    $("sellBtn").disabled = !any;
+    $("bestLabel").textContent = "최고 깊이 " + S.best + " m";
+    var cdx = $("codex"), fc = 0;
+    cdx.innerHTML = "";
+    ORES.forEach(function (o) {
+      var f = !!S.found[o.id]; if (f) fc++;
+      var row = document.createElement("div");
+      row.className = "cdx" + (f ? "" : " lock");
+      row.innerHTML = '<span class="sw"></span><span class="nm"></span><span class="vl"></span>';
+      row.children[0].style.background = f ? o.c : "#4a3d33";
+      row.children[1].textContent = f ? o.name : "???";
+      row.children[2].textContent = f ? "개당 " + num(o.v) : "깊이 " + o.min + " m부터";
+      cdx.appendChild(row);
+    });
+    $("codexSum").textContent = fc + " / " + ORES.length;
+    var box = $("upgrades");
+    box.innerHTML = "";
+    UPG.forEach(function (u) {
+      var l = S.lv[u.k], cost = upgCost(u, l), can = S.coins >= cost;
+      var row = document.createElement("div");
+      row.className = "upg" + (u.k === flashKey ? " flash" : "");
+      row.innerHTML = '<canvas class="ico" width="16" height="16"></canvas><div class="info"><div class="nm"><span></span><i></i></div><div class="ef"></div></div><button type="button"></button>';
+      drawIcon(row.querySelector(".ico"), u.k, tierOfLv(l));
+      row.querySelector(".nm span").textContent = TIERNAME[u.k][tierOfLv(l)];
+      row.querySelector(".nm i").textContent = "Lv " + l;
+      row.querySelector(".ef").textContent = u.d + " " + u.fmt(u.eff(l)) + " → " + u.fmt(u.eff(l + 1)) + (l % 3 === 0 && l < 12 ? " · 새 장비 해금" : "");
+      var b = row.querySelector("button");
+      b.textContent = num(cost);
+      b.disabled = !can;
+      if (can) b.className = "can";
+      b.setAttribute("aria-label", u.name + " 강화, " + num(cost) + " 코인");
+      b.addEventListener("click", function () {
+        if (S.coins < cost) return;
+        if (u.k === "drill") wSettle();
+        var t0 = tierOf(u.k);
+        S.coins -= cost; S.lv[u.k]++; save(); SFX.buy(); showCoins(true); renderBase(u.k);
+        if (tierOf(u.k) > t0) {
+          var rp = $("report"); rp.hidden = false; rp.innerHTML = "<b></b><span></span>";
+          rp.firstChild.textContent = "새 장비 장착!"; rp.lastChild.textContent = TIERNAME[u.k][tierOf(u.k)] + "로 바꿨어요.";
+          SFX.sell();
+        }
+      });
+      box.appendChild(row);
+    });
+    renderQuests();
+    renderWorkers();
+  }
+
+  $("startBtn").addEventListener("click", startRun);
+  $("returnBtn").addEventListener("click", function () { endRun("지상으로 귀환했어요."); });
+  $("sellBtn").addEventListener("click", function () {
+    var v = bagValue();
+    if (!v) return;
+    S.coins += v; S.bag = {}; save(); SFX.sell(); showCoins(true); renderBase();
+  });
+  var resetArmed = false, resetTimer = 0;
+  $("resetBtn").addEventListener("click", function () {
+    var b = $("resetBtn");
+    if (!resetArmed) {
+      resetArmed = true; b.textContent = "한 번 더 누르면 모든 기록이 지워져요";
+      resetTimer = setTimeout(function () { resetArmed = false; b.textContent = "기록 초기화"; }, 3000);
+      return;
+    }
+    clearTimeout(resetTimer); resetArmed = false; b.textContent = "기록 초기화";
+    S = { coins: 0, lv: { drill: 1, time: 1, bag: 1, move: 1 }, best: 0, bag: {}, found: {}, mute: S.mute, workers: 0, wPend: 0, wLast: Date.now(), quests: [] };
+    ensureQuests(); save(); $("report").hidden = true; showCoins(false); renderBase();
+  });
+
+  // ---- input ----
+  var KEYMAP = { arrowup: 0, arrowright: 1, arrowdown: 2, arrowleft: 3, w: 0, d: 1, s: 2, a: 3 };
+  document.addEventListener("keydown", function (e) {
+    if (state !== "mine" || e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = KEYMAP[e.key.toLowerCase()];
+    if (k === undefined) return;
+    e.preventDefault();
+    if (keyStack.indexOf(k) < 0) keyStack.push(k);
+  });
+  document.addEventListener("keyup", function (e) {
+    var k = KEYMAP[e.key.toLowerCase()];
+    if (k === undefined) return;
+    var i = keyStack.indexOf(k);
+    if (i >= 0) keyStack.splice(i, 1);
+  });
+  window.addEventListener("blur", function () { keyStack = []; padDir = -1; ptr = null; });
+
+  function setPtr(e) { var r = cv.getBoundingClientRect(); ptr = { x: e.clientX - r.left, y: e.clientY - r.top }; }
+  cv.addEventListener("pointerdown", function (e) { setPtr(e); try { cv.setPointerCapture(e.pointerId); } catch (err) {} });
+  cv.addEventListener("pointermove", function (e) { if (ptr) setPtr(e); });
+  ["pointerup", "pointercancel"].forEach(function (t) { cv.addEventListener(t, function () { ptr = null; }); });
+  cv.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+
+  Array.prototype.forEach.call(document.querySelectorAll(".dpad button"), function (b) {
+    var d = parseInt(b.getAttribute("data-d"), 10);
+    b.addEventListener("pointerdown", function (e) { e.preventDefault(); padDir = d; });
+    ["pointerup", "pointerleave", "pointercancel"].forEach(function (t) { b.addEventListener(t, function () { if (padDir === d) padDir = -1; }); });
+  });
+
+  window.addEventListener("resize", function () { if (state === "mine") resize(); });
+  if (window.ResizeObserver) new ResizeObserver(function () { if (state === "mine") resize(); }).observe(cv);
+
+  $("wkCollect").addEventListener("click", function () {
+    var v = Math.floor(wPend());
+    if (v < 1) return;
+    S.coins += v; S.wPend = 0; S.wLast = Date.now(); save(); SFX.sell(); showCoins(true); renderBase();
+  });
+  $("wkHire").addEventListener("click", function () {
+    var cost = workerCost(S.workers);
+    if (S.workers >= MAXW || S.coins < cost) return;
+    wSettle();
+    S.coins -= cost; S.workers++; save(); SFX.buy(); showCoins(true); renderBase(); renderWorkers(S.workers - 1);
+  });
+  setInterval(function () { if (state === "base") updatePend(); }, 1000);
+
+  function muteLabel() { $("muteBtn").textContent = S.mute ? "소리 꺼짐" : "소리 켜짐"; $("muteBtn").setAttribute("aria-pressed", S.mute ? "true" : "false"); }
+  $("muteBtn").addEventListener("click", function () { S.mute = !S.mute; save(); muteLabel(); if (!S.mute) SFX.warn(); });
+
+  load();
+  ensureQuests();
+  muteLabel();
+  showCoins(false);
+  renderBase();
+})();
+</script>
+
+</body>
+</html>
