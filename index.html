@@ -37,7 +37,7 @@ img { max-width: 100%; }
 <body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gugi&family=Gowun+Dodum&family=DotGothic16&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
 /* Layout: one narrow column that swaps between the surface shop and the mine. The page is deliberately a single dark underground look. Amber is the only accent: drill, buttons, time bar. */
 :root {
@@ -51,9 +51,9 @@ img { max-width: 100%; }
   --accent-ink: #2a1700;
   --good: #8bdc8f;
   --warn: #ff6b57;
-  --font-display: "Jua", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --font-body: "Gowun Dodum", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display: "Do Hyeon", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "Do Hyeon", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
 * { box-sizing: border-box; }
 body {
@@ -130,7 +130,7 @@ canvas { display: block; width: 100%; height: 100%; border-radius: 8px; backgrou
 canvas:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
 .controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.dpad { display: none; grid-template-columns: repeat(3, 52px); grid-template-rows: repeat(2, 52px); gap: 6px; }
+.dpad-old { display: none; grid-template-columns: repeat(3, 52px); grid-template-rows: repeat(2, 52px); gap: 6px; }
 .dpad button { padding: 0; font-size: 20px; min-height: 0; touch-action: none; }
 .dpad .u { grid-column: 2; grid-row: 1; }
 .dpad .l { grid-column: 1; grid-row: 2; }
@@ -178,8 +178,8 @@ section { animation: fadein 0.25s ease-out; }
 :root {
   --bg: #14100d; --panel: #2a1f18; --line: #4a382b; --ink: #f6e9d2; --muted: #b7a48c;
   --accent: #ffb52e; --accent-ink: #2a1700; --edge: #0b0806;
-  --font-display: "Gugi", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --font-mono: "DotGothic16", "Apple SD Gothic Neo", "Malgun Gothic", ui-monospace, monospace;
+  --font-display: "Do Hyeon", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono: "Do Hyeon", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
 body { background: var(--bg) radial-gradient(circle at 20% 0, #241a13 0, transparent 60%); }
 h1 { font-family: var(--font-display); font-size: 30px; letter-spacing: 0.02em; text-shadow: 3px 3px 0 var(--edge), 0 0 0 var(--accent); color: var(--accent); }
@@ -217,6 +217,33 @@ canvas { border-radius: 0; image-rendering: pixelated; box-shadow: 0 0 0 3px var
 .bar.low i { background: repeating-linear-gradient(90deg, var(--warn) 0 8px, #c9402f 8px 10px); }
 .ico { width: 44px; height: 44px; flex: none; image-rendering: pixelated; background: #1b130e; border: 3px solid var(--edge); box-shadow: inset 0 0 0 2px var(--line); padding: 3px; box-sizing: border-box; }
 .upg .info .ef { text-wrap: pretty; }
+/* iOS: stop long-press from selecting text or opening the callout menu while holding buttons */
+html, body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+button, canvas, .dpad { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: none; }
+
+.stick { display: none; position: relative; width: 140px; height: 140px; flex: none; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #1b130e 0 52%, #2a1f18 53% 100%); border: 4px solid var(--edge); box-shadow: inset 0 0 0 3px var(--line), 0 5px 0 var(--edge); touch-action: none; }
+.stick .a { position: absolute; font-style: normal; font-size: 13px; color: #6f5a46; line-height: 1; }
+.stick .u { left: 50%; top: 8px; transform: translateX(-50%); }
+.stick .d { left: 50%; bottom: 8px; transform: translateX(-50%); }
+.stick .l { top: 50%; left: 9px; transform: translateY(-50%); }
+.stick .r { top: 50%; right: 9px; transform: translateY(-50%); }
+.stick[data-dir="0"] .u, .stick[data-dir="1"] .r, .stick[data-dir="2"] .d, .stick[data-dir="3"] .l { color: var(--accent); }
+.stick .knob { position: absolute; left: 50%; top: 50%; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: var(--accent); border: 4px solid var(--edge); box-shadow: inset -5px -6px 0 #c27d00, inset 5px 5px 0 #ffe08a, 0 4px 0 var(--edge); pointer-events: none; }
+@media (pointer: coarse) { .stick { display: block; } .keys { display: none; } }
+
+/* fonts: one display face for titles, buttons and numbers; a plain gothic for sentences */
+body { font-size: 15px; font-weight: 400; letter-spacing: -0.01em; }
+h1 { font-size: 34px; letter-spacing: 0; }
+.panel h2 { font-size: 20px; letter-spacing: 0; }
+.panel h2 small, .level, .hudrow, .sellrow span, .cdx .vl, .upg .nm i, .bag .ct, .bag .vl, .wk-info b, .coins b, .stat b { font-size: 15px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.coins b { font-size: 28px; }
+.upg .nm { font-size: 20px; letter-spacing: 0; }
+.upg button, .wk-btns button { font-size: 17px; letter-spacing: 0; }
+button { font-weight: 500; }
+button.primary { font-size: 26px; letter-spacing: 0.04em; }
+.hudrow { font-size: 17px; }
+.hudrow .layer, .upg .ef, .tip, .empty { font-family: var(--font-body); }
+.report b { font-size: 20px; }
 </style>
 
 <main class="app">
@@ -268,7 +295,7 @@ canvas { border-radius: 0; image-rendering: pixelated; box-shadow: 0 0 0 3px var
     </div>
 
     <p class="tip">땅속에는 산소 결정(산소 회복), 보물 상자(코인), 가스 주머니(산소 감소)가 숨어 있어요.</p>
-    <p class="tip">채굴 중에는 방향키나 W A S D를 누르고 있거나, 화면을 누른 채 가고 싶은 쪽에 손가락을 대고 있으세요. 막힌 땅은 자동으로 파요. 깊이 내려갈수록 산소가 더 빨리 줄어요. 산소가 떨어지면 지상으로 돌아오고, 캔 광물은 그대로 가져와요.</p>
+    <p class="tip">채굴 중에는 화면 아래 조이스틱(폰) 또는 방향키·W A S D(PC)로 움직여요. 막힌 땅은 자동으로 파요. 깊이 내려갈수록 산소가 더 빨리 줄어요. 산소가 떨어지면 지상으로 돌아오고, 캔 광물은 그대로 가져와요.</p>
     <button class="link" id="resetBtn" type="button">기록 초기화</button>
   </section>
 
@@ -282,12 +309,7 @@ canvas { border-radius: 0; image-rendering: pixelated; box-shadow: 0 0 0 3px var
     <div class="controls">
       <button id="returnBtn" type="button">지금 귀환</button>
       <p class="keys">방향키 또는 W A S D</p>
-      <div class="dpad" aria-label="방향 버튼">
-        <button class="u" data-d="0" type="button" aria-label="위">▲</button>
-        <button class="l" data-d="3" type="button" aria-label="왼쪽">◀</button>
-        <button class="d" data-d="2" type="button" aria-label="아래">▼</button>
-        <button class="r" data-d="1" type="button" aria-label="오른쪽">▶</button>
-      </div>
+      <div class="stick" id="stick" role="application" aria-label="이동 조이스틱"><i class="a u">▲</i><i class="a r">▶</i><i class="a d">▼</i><i class="a l">◀</i><div class="knob" id="knob"></div></div>
     </div>
   </section>
 </main>
@@ -452,6 +474,7 @@ canvas { border-radius: 0; image-rendering: pixelated; box-shadow: 0 0 0 3px var
     SFX.start();
     ptr = null; padDir = -1; keyStack = [];
     state = "mine";
+    if (window.__stickReset) window.__stickReset();
     $("base").hidden = true; $("mine").hidden = false;
     resize();
     last = performance.now();
@@ -804,7 +827,7 @@ canvas { border-radius: 0; image-rendering: pixelated; box-shadow: 0 0 0 3px var
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(WCV, 0, 0, WCV.width, WCV.height, 0, 0, cv.width, cv.height);
     ctx.setTransform(r, 0, 0, r, 0, 0);
-    ctx.font = "400 " + Math.round(ts * 0.34) + "px Gugi, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
+    ctx.font = "400 " + Math.round(ts * 0.34) + "px 'Do Hyeon', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
     ctx.textAlign = "center"; ctx.lineJoin = "round";
     for (var j = 0; j < floaters.length; j++) {
       var f = floaters[j], fxp = (f.x - camX) * ts, fyp = (f.y - camY) * ts;
@@ -820,17 +843,17 @@ canvas { border-radius: 0; image-rendering: pixelated; box-shadow: 0 0 0 3px var
       var bt = banner.t, inK = Math.min(1, (2.2 - bt) / 0.4), outK = Math.min(1, bt / 0.5);
       var yo = Math.pow(1 - inK, 3) * ts * 0.35;
       ctx.globalAlpha = Math.max(0, Math.min(inK, outK));
-      ctx.font = "400 " + Math.round(ts * 0.8) + "px Gugi, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
+      ctx.font = "400 " + Math.round(ts * 0.8) + "px 'Do Hyeon', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
       ctx.lineWidth = ts * 0.16; ctx.strokeStyle = "#0b0806"; ctx.strokeText(banner.text, cw / 2, ch * 0.28 + yo);
       ctx.fillStyle = "#ffb52e"; ctx.fillText(banner.text, cw / 2, ch * 0.28 + yo);
-      ctx.font = "400 " + Math.round(ts * 0.4) + "px Gugi, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
+      ctx.font = "400 " + Math.round(ts * 0.4) + "px 'Do Hyeon', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
       ctx.lineWidth = ts * 0.12; ctx.strokeText("깊이 " + banner.sub, cw / 2, ch * 0.28 + ts * 0.55 + yo);
       ctx.fillStyle = "#f6e9d2"; ctx.fillText("깊이 " + banner.sub, cw / 2, ch * 0.28 + ts * 0.55 + yo);
       ctx.globalAlpha = 1;
     }
     if (!started) {
       var hy = ch * 0.5 + Math.sin(nowT / 300) * ts * 0.05;
-      ctx.font = "400 " + Math.round(ts * 0.36) + "px Gugi, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
+      ctx.font = "400 " + Math.round(ts * 0.36) + "px 'Do Hyeon', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
       ctx.lineWidth = ts * 0.12; ctx.strokeStyle = "#0b0806"; ctx.strokeText("방향키로 땅을 파면 산소가 줄기 시작해요", cw / 2, hy);
       ctx.fillStyle = "#f6e9d2"; ctx.fillText("방향키로 땅을 파면 산소가 줄기 시작해요", cw / 2, hy);
     }
@@ -1073,11 +1096,36 @@ canvas { border-radius: 0; image-rendering: pixelated; box-shadow: 0 0 0 3px var
   window.addEventListener("blur", function () { keyStack = []; padDir = -1; ptr = null; });
 
   function setPtr(e) { var r = cv.getBoundingClientRect(); ptr = { x: e.clientX - r.left, y: e.clientY - r.top }; }
-  cv.addEventListener("pointerdown", function (e) { setPtr(e); try { cv.setPointerCapture(e.pointerId); } catch (err) {} });
+  cv.addEventListener("pointerdown", function (e) { if (e.pointerType === "touch") return; setPtr(e); try { cv.setPointerCapture(e.pointerId); } catch (err) {} });
   cv.addEventListener("pointermove", function (e) { if (ptr) setPtr(e); });
   ["pointerup", "pointercancel"].forEach(function (t) { cv.addEventListener(t, function () { ptr = null; }); });
   cv.addEventListener("contextmenu", function (e) { e.preventDefault(); });
 
+  (function () {
+    var st = $("stick"), kb = $("knob"), act = null;
+    function upd(e) {
+      var r = st.getBoundingClientRect(), R = r.width / 2;
+      var dx = e.clientX - (r.left + R), dy = e.clientY - (r.top + R), d = Math.hypot(dx, dy), mx = R * 0.5;
+      var k = d > mx ? mx / d : 1, dir = -1;
+      kb.style.transform = "translate(" + (dx * k).toFixed(1) + "px," + (dy * k).toFixed(1) + "px)";
+      if (d > R * 0.2) {
+        var ax = Math.abs(dx), ay = Math.abs(dy);
+        if (padDir === 1 || padDir === 3) dir = ay > ax * 1.35 ? (dy > 0 ? 2 : 0) : (dx > 0 ? 1 : 3);
+        else if (padDir === 0 || padDir === 2) dir = ax > ay * 1.35 ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0);
+        else dir = ax > ay ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0);
+      }
+      padDir = dir;
+      st.setAttribute("data-dir", String(dir));
+    }
+    function end() { act = null; padDir = -1; kb.style.transform = ""; st.removeAttribute("data-dir"); }
+    st.addEventListener("pointerdown", function (e) { e.preventDefault(); act = e.pointerId; try { st.setPointerCapture(e.pointerId); } catch (err) {} upd(e); });
+    st.addEventListener("pointermove", function (e) { if (act === e.pointerId) upd(e); });
+    ["pointerup", "pointercancel", "lostpointercapture"].forEach(function (t) { st.addEventListener(t, function (e) { if (act === e.pointerId || t === "lostpointercapture") end(); }); });
+    window.__stickReset = end;
+  })();
+
+  document.addEventListener("contextmenu", function (e) { if (state === "mine") e.preventDefault(); });
+  document.addEventListener("selectstart", function (e) { if (state === "mine") e.preventDefault(); });
   Array.prototype.forEach.call(document.querySelectorAll(".dpad button"), function (b) {
     var d = parseInt(b.getAttribute("data-d"), 10);
     b.addEventListener("pointerdown", function (e) { e.preventDefault(); padDir = d; });
@@ -1103,6 +1151,7 @@ canvas { border-radius: 0; image-rendering: pixelated; box-shadow: 0 0 0 3px var
   function muteLabel() { $("muteBtn").textContent = S.mute ? "소리 꺼짐" : "소리 켜짐"; $("muteBtn").setAttribute("aria-pressed", S.mute ? "true" : "false"); }
   $("muteBtn").addEventListener("click", function () { S.mute = !S.mute; save(); muteLabel(); if (!S.mute) SFX.warn(); });
 
+  try { if (document.fonts && document.fonts.load) document.fonts.load("20px 'Do Hyeon'"); } catch (e) {}
   load();
   ensureQuests();
   muteLabel();
