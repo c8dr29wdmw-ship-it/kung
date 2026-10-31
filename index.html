@@ -244,6 +244,12 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
 .hudrow { font-size: 17px; }
 .hudrow .layer, .upg .ef, .tip, .empty { font-family: var(--font-body); }
 .report b { font-size: 20px; }
+.bag li { flex-wrap: wrap; row-gap: 6px; }
+.bag .nm { min-width: 72px; }
+.bag .sb { display: flex; gap: 6px; margin-left: auto; }
+button.mini { min-height: 34px; padding: 2px 10px; font-size: 15px; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.35), 0 3px 0 var(--edge); }
+
+.upg .rw { font-family: var(--font-mono); font-size: 16px; color: var(--accent); flex: none; }
 </style>
 
 <main class="app">
@@ -271,6 +277,11 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
     <div class="panel">
       <h2>의뢰 <small>완료하면 보상</small></h2>
       <div id="quests"></div>
+    </div>
+
+    <div class="panel">
+      <h2>업적 <small id="achSum"></small></h2>
+      <div id="ach"></div>
     </div>
 
     <div class="panel">
@@ -317,7 +328,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
-  var W = 15, H = 140, COLS = 9, ROWS = 10, SAVE = "kung-mine-v1";
+  var W = 15, H = 300, COLS = 9, ROWS = 10, SAVE = "kung-mine-v1";
   var DX = [0, 1, 0, -1], DY = [-1, 0, 1, 0];
   var cv = $("cv"), ctx = cv.getContext("2d");
 
@@ -325,25 +336,34 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
     { id: "coal", name: "석탄", v: 6, min: 1, max: 45, p: 0.07, hard: 0, c: "#22222a", hi: "#5d5d6c" },
     { id: "copper", name: "구리", v: 14, min: 4, max: 80, p: 0.045, hard: 0.1, c: "#e08a45", hi: "#ffd3a8" },
     { id: "iron", name: "철", v: 32, min: 12, max: 100, p: 0.04, hard: 0.2, c: "#cfc8c0", hi: "#ffffff" },
-    { id: "silver", name: "은", v: 85, min: 24, max: 140, p: 0.03, hard: 0.3, c: "#dbe8f3", hi: "#ffffff" },
-    { id: "gold", name: "금", v: 220, min: 40, max: 140, p: 0.026, hard: 0.4, c: "#ffcb2f", hi: "#fff3b0" },
-    { id: "ruby", name: "루비", v: 650, min: 62, max: 140, p: 0.018, hard: 0.5, c: "#ff3d63", hi: "#ffc2cf" },
-    { id: "diamond", name: "다이아몬드", v: 2200, min: 88, max: 140, p: 0.012, hard: 0.6, c: "#6ff0ff", hi: "#e8ffff" }
+    { id: "silver", name: "은", v: 85, min: 24, max: 150, p: 0.03, hard: 0.3, c: "#dbe8f3", hi: "#ffffff" },
+    { id: "gold", name: "금", v: 220, min: 40, max: 190, p: 0.026, hard: 0.4, c: "#ffcb2f", hi: "#fff3b0" },
+    { id: "ruby", name: "루비", v: 650, min: 62, max: 230, p: 0.018, hard: 0.5, c: "#ff3d63", hi: "#ffc2cf" },
+    { id: "diamond", name: "다이아몬드", v: 2200, min: 88, max: 300, p: 0.012, hard: 0.6, c: "#6ff0ff", hi: "#e8ffff" },
+    { id: "emerald", name: "에메랄드", v: 4500, min: 118, max: 300, p: 0.012, hard: 0.7, c: "#2fd27a", hi: "#c4ffe0" },
+    { id: "amethyst", name: "자수정", v: 9000, min: 148, max: 300, p: 0.011, hard: 0.8, c: "#b36cff", hi: "#ecd4ff" },
+    { id: "opal", name: "오팔", v: 18000, min: 178, max: 300, p: 0.01, hard: 0.9, c: "#ffd1f0", hi: "#ffffff" },
+    { id: "mithril", name: "미스릴", v: 36000, min: 208, max: 300, p: 0.009, hard: 1.0, c: "#7fb6ff", hi: "#e3f0ff" },
+    { id: "orichalcum", name: "오리하르콘", v: 70000, min: 238, max: 300, p: 0.008, hard: 1.1, c: "#ff7a3d", hi: "#ffd3b8" },
+    { id: "starshard", name: "별의 조각", v: 150000, min: 268, max: 300, p: 0.007, hard: 1.2, c: "#fff27a", hi: "#ffffff" }
   ];
   var LAYERS = [
     { to: 14, name: "흙", h: 0.6, a: "#7a5434", b: "#68472b" },
     { to: 34, name: "돌", h: 1.4, a: "#76747b", b: "#64626a" },
     { to: 64, name: "단단한 바위", h: 3, a: "#5a5762", b: "#4a4752" },
     { to: 99, name: "심층", h: 5.5, a: "#4d3b66", b: "#3e2f55" },
-    { to: 999, name: "마그마 지대", h: 8, a: "#80392a", b: "#6a2d21" }
+    { to: 149, name: "마그마 지대", h: 8, a: "#80392a", b: "#6a2d21" },
+    { to: 199, name: "수정 동굴", h: 12, a: "#2f5d73", b: "#264b5d" },
+    { to: 249, name: "고대 유적", h: 17, a: "#7b6a3d", b: "#665731" },
+    { to: 999, name: "심연", h: 24, a: "#2a2a4a", b: "#1f1f3a" }
   ];
   function layerAt(y) { for (var i = 0; i < LAYERS.length; i++) if (y <= LAYERS[i].to) return LAYERS[i]; return LAYERS[LAYERS.length - 1]; }
 
   var UPG = [
-    { k: "drill", name: "드릴", base: 40, g: 1.55, eff: function (l) { return 1 + 0.4 * (l - 1); }, d: "채굴 속도", fmt: function (v) { return "×" + v.toFixed(1); } },
-    { k: "time", name: "산소통", base: 60, g: 1.7, eff: function (l) { return 100 + 20 * (l - 1); }, d: "산소 용량", fmt: function (v) { return String(v); } },
-    { k: "bag", name: "광물 가방", base: 50, g: 1.6, eff: function (l) { return 8 + 4 * (l - 1); }, d: "수납", fmt: function (v) { return v + "칸"; } },
-    { k: "move", name: "튼튼한 장화", base: 70, g: 1.7, eff: function (l) { return 1 + 0.1 * (l - 1); }, d: "이동 속도", fmt: function (v) { return "×" + v.toFixed(1); } }
+    { k: "drill", name: "드릴", base: 40, g: 1.5, eff: function (l) { return 1 + 0.4 * (l - 1); }, d: "채굴 속도", fmt: function (v) { return "×" + v.toFixed(1); } },
+    { k: "time", name: "산소통", base: 60, g: 1.5, eff: function (l) { return 100 + 20 * (l - 1); }, d: "산소 용량", fmt: function (v) { return String(v); } },
+    { k: "bag", name: "광물 가방", base: 50, g: 1.5, eff: function (l) { return 8 + 4 * (l - 1); }, d: "수납", fmt: function (v) { return v + "칸"; } },
+    { k: "move", name: "튼튼한 장화", base: 70, g: 1.5, eff: function (l) { return 1 + 0.1 * (l - 1); }, d: "이동 속도", fmt: function (v) { return "×" + v.toFixed(1); } }
   ];
   // equipment looks change every 3 levels
   var TIERNAME = {
@@ -400,7 +420,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
   };
 
   // ---- save data ----
-  var S = { coins: 0, lv: { drill: 1, time: 1, bag: 1, move: 1 }, best: 0, bag: {}, found: {}, mute: false, workers: 0, wPend: 0, wLast: Date.now(), quests: [] };
+  var S = { coins: 0, lv: { drill: 1, time: 1, bag: 1, move: 1 }, best: 0, bag: {}, found: {}, mute: false, workers: 0, wPend: 0, wLast: Date.now(), quests: [], ach: {}, stats: { ores: 0, quests: 0 } };
   function load() {
     try {
       var r = localStorage.getItem(SAVE);
@@ -417,6 +437,8 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
       S.workers = Math.min(10, Math.max(0, Math.floor(+o.workers || 0)));
       S.wPend = Math.max(0, +o.wPend || 0);
       S.wLast = Math.min(Date.now(), +o.wLast || Date.now());
+      S.ach = {}; if (o.ach) for (var ak in o.ach) if (o.ach[ak]) S.ach[ak] = true;
+      S.stats = { ores: Math.max(0, +(o.stats && o.stats.ores) || 0), quests: Math.max(0, +(o.stats && o.stats.quests) || 0) };
       S.quests = (Array.isArray(o.quests) ? o.quests : []).filter(function (q) {
         return q && +q.reward > 0 && (q.t === "depth" ? +q.d > 0 : (q.t === "ore" && +q.n > 0 && ORES.some(function (x) { return x.id === q.o; })));
       }).slice(0, 3);
@@ -425,7 +447,16 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
   function save() { try { localStorage.setItem(SAVE, JSON.stringify(S)); } catch (e) {} }
   function eff(k) { var u = UPG.filter(function (x) { return x.k === k; })[0]; return u.eff(S.lv[k]); }
   function bagCount() { var n = 0; for (var k in S.bag) n += S.bag[k]; return n; }
-  function bagValue() { var v = 0; ORES.forEach(function (o) { v += (S.bag[o.id] || 0) * o.v; }); return v; }
+  function sellMult() { return S.lv.luck ? 1 + 0.05 * (S.lv.luck - 1) : 1; }
+  function unitPrice(o) { return Math.floor(o.v * sellMult()); }
+  function bagValue() { var v = 0; ORES.forEach(function (o) { v += (S.bag[o.id] || 0) * unitPrice(o); }); return v; }
+  function sellOre(id, n) {
+    var o = ORES.filter(function (x) { return x.id === id; })[0], have = S.bag[id] || 0;
+    n = Math.min(n, have);
+    if (!o || n < 1) return;
+    S.coins += unitPrice(o) * n; S.bag[id] = have - n; if (!S.bag[id]) delete S.bag[id];
+    save(); SFX.sell(); showCoins(true); renderBase();
+  }
   function num(n) { return Math.round(n).toLocaleString("ko-KR"); }
 
   // ---- world ----
@@ -472,7 +503,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
     timeLeft = eff("time"); maxDepth = 0; runOre = 0; runCoins = 0; particles = []; floaters = [];
     started = false; lastBeep = 0; banner = null; shakeT = 0; carry = 0; faceAng = Math.PI; lastLayer = layerAt(1); beeped = 0; newBestShown = false;
     SFX.start();
-    ptr = null; padDir = -1; keyStack = [];
+    ptr = null; padDir = -1; keyStack = []; applied = -1; pend = -2; pendT = 0;
     state = "mine";
     if (window.__stickReset) window.__stickReset();
     $("base").hidden = true; $("mine").hidden = false;
@@ -494,14 +525,15 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
       if (q.t === "depth" && maxDepth >= q.d) { qd += q.reward; qn++; return genQuest(); }
       return q;
     });
-    S.coins += qd;
+    S.coins += qd; S.stats.quests += qn;
+    var am = checkAch();
     save();
     SFX.end();
     var r = $("report");
     r.hidden = false;
     r.innerHTML = "<b></b><span></span>";
     r.firstChild.textContent = reason + (newBest ? " 최고 깊이 신기록!" : "");
-    r.lastChild.textContent = (runOre > 0 ? "최고 깊이 " + maxDepth + " m · 광물 " + runOre + "개를 캤어요." : "최고 깊이 " + maxDepth + " m · 이번에는 광물 없이 돌아왔어요.") + (runCoins > 0 ? " 보물 상자에서 " + num(runCoins) + " 코인을 얻었어요." : "") + (qn ? " 의뢰 " + qn + "건 완료, +" + num(qd) + " 코인." : "");
+    r.lastChild.textContent = (runOre > 0 ? "최고 깊이 " + maxDepth + " m · 광물 " + runOre + "개를 캤어요." : "최고 깊이 " + maxDepth + " m · 이번에는 광물 없이 돌아왔어요.") + (runCoins > 0 ? " 보물 상자에서 " + num(runCoins) + " 코인을 얻었어요." : "") + (qn ? " 의뢰 " + qn + "건 완료, +" + num(qd) + " 코인." : "") + (am.length ? " 업적 달성: " + am.join(", ") + "." : "");
     $("mine").hidden = true; $("base").hidden = false;
     renderBase(); showCoins(true);
     window.scrollTo(0, 0);
@@ -509,7 +541,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
 
   function startMove(tx, ty) {
     started = true;
-    var t0 = Math.min(0.9, carry / (0.16 / eff("move")));
+    var t0 = Math.min(0.9, carry / (0.22 / eff("move")));
     carry = 0;
     moving = { fx: px, fy: py, tx: tx, ty: ty, t: t0 };
     fx = px + (tx - px) * t0; fy = py + (ty - py) * t0;
@@ -542,7 +574,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
       var o = ORES[oi];
       S.found[o.id] = true;
       if (bagCount() < eff("bag")) {
-        S.bag[o.id] = (S.bag[o.id] || 0) + 1; runOre++;
+        S.bag[o.id] = (S.bag[o.id] || 0) + 1; runOre++; S.stats.ores++;
         floaters.push({ x: x + 0.5, y: y, t: 1, text: "+" + o.name, c: o.c === "#22222a" ? "#9a9aad" : o.c });
         SFX.ore(o.v);
       } else {
@@ -576,6 +608,16 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
     }
   }
 
+  var applied = -1, pend = -2, pendT = 0;
+  // a new direction must be held briefly before it takes effect, so quick flicks do not make the miner jitter
+  function inputDir(raw, dt) {
+    if (raw < 0) { applied = -1; pend = -2; pendT = 0; return -1; }
+    if (raw === applied) return raw;
+    if (raw !== pend) { pend = raw; pendT = 0; }
+    pendT += dt;
+    if (applied < 0 && pendT >= 0.04 || pendT >= 0.11) { applied = raw; pend = -2; return raw; }
+    return -1;
+  }
   var O2_BASE = 3.3;
   function o2Rate() { return O2_BASE * (1 + Math.max(0, py) * 0.02); }
   function update(dt) {
@@ -584,7 +626,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
     if (timeLeft <= 0) { timeLeft = 0; endRun("산소가 바닥났어요! 지상으로 긴급 복귀했어요."); return; }
     shakeT = Math.max(0, shakeT - dt);
     if (banner) { banner.t -= dt; if (banner.t <= 0) banner = null; }
-    var moveTime = 0.16 / eff("move");
+    var moveTime = 0.22 / eff("move");
     if (moving) {
       moving.t += dt / moveTime;
       if (moving.t >= 1) {
@@ -597,9 +639,10 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
       }
     }
     if (!moving) {
-      var d = currentDir();
+      var rawD = currentDir();
+      if (rawD >= 0) facing = rawD;
+      var d = inputDir(rawD, dt);
       if (d >= 0) {
-        facing = d;
         var nx = px + DX[d], ny = py + DY[d];
         if (nx >= 0 && nx < W && ny >= 0 && ny < H && tiles[ny * W + nx] !== 2) {
           if (tiles[ny * W + nx] === 1) {
@@ -933,6 +976,56 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
     })(t0);
   }
 
+  var ACH = [];
+  (function () {
+    function add(id, name, target, cur, reward) { ACH.push({ id: id, name: name, target: target, cur: cur, reward: reward }); }
+    var found = function () { return ORES.filter(function (o) { return S.found[o.id]; }).length; };
+    [[25, 150], [50, 500], [100, 2000], [150, 6000], [200, 15000], [250, 40000], [290, 100000]].forEach(function (a) { add("d" + a[0], a[0] + " m 도달", a[0], function () { return S.best; }, a[1]); });
+    [[50, 200], [300, 1500], [1000, 6000], [3000, 30000]].forEach(function (a) { add("o" + a[0], "광물 " + a[0] + "개 채굴", a[0], function () { return S.stats.ores; }, a[1]); });
+    [[1, 300], [5, 5000], [10, 50000]].forEach(function (a) { add("w" + a[0], "일꾼 " + a[0] + "명 고용", a[0], function () { return S.workers; }, a[1]); });
+    [[5, 1000], [20, 8000]].forEach(function (a) { add("q" + a[0], "의뢰 " + a[0] + "건 완료", a[0], function () { return S.stats.quests; }, a[1]); });
+    add("c5", "도감 5종 발견", 5, found, 500);
+    add("call", "도감 모두 발견", ORES.length, found, 60000);
+    add("t4", "장비 5단계 달성", 1, function () { return ["drill", "time", "bag", "move"].filter(function (k) { return tierOf(k) >= 4; }).length; }, 20000);
+  })();
+  function checkAch() {
+    var out = [];
+    ACH.forEach(function (a) {
+      if (!S.ach[a.id] && a.cur() >= a.target) { S.ach[a.id] = true; S.coins += a.reward; out.push(a.name + " +" + num(a.reward)); }
+    });
+    return out;
+  }
+  function afterAction() {
+    var am = checkAch();
+    if (!am.length) return;
+    var rp = $("report"); rp.hidden = false; rp.innerHTML = "<b></b><span></span>";
+    rp.firstChild.textContent = "업적 달성!"; rp.lastChild.textContent = am.join(" · ") + " 코인";
+  }
+  function renderAch() {
+    var box = $("ach"), done = ACH.filter(function (a) { return S.ach[a.id]; }).length;
+    $("achSum").textContent = done + " / " + ACH.length;
+    box.innerHTML = "";
+    var todo = ACH.filter(function (a) { return !S.ach[a.id]; }).slice(0, 4);
+    if (!todo.length) { var e = document.createElement("p"); e.className = "empty"; e.textContent = "모든 업적을 달성했어요!"; box.appendChild(e); return; }
+    todo.forEach(function (a) {
+      var row = document.createElement("div"); row.className = "upg";
+      row.innerHTML = '<div class="info"><div class="nm"></div><div class="ef"></div></div><span class="rw"></span>';
+      row.querySelector(".nm").textContent = a.name;
+      row.querySelector(".ef").textContent = "진행 " + num(Math.min(a.cur(), a.target)) + " / " + num(a.target);
+      row.querySelector(".rw").textContent = "+" + num(a.reward);
+      box.appendChild(row);
+    });
+  }
+  function reservedOres() {
+    var r = {};
+    S.quests.forEach(function (q) { if (q.t === "ore") r[q.o] = (r[q.o] || 0) + q.n; });
+    return r;
+  }
+  function sellableValue() {
+    var res = reservedOres(), v = 0;
+    ORES.forEach(function (o) { var c = S.bag[o.id] || 0; v += (c - Math.min(c, res[o.id] || 0)) * unitPrice(o); });
+    return v;
+  }
   function genQuest() {
     var reach = Math.max(12, S.best + 6);
     if (Math.random() < 0.35) {
@@ -942,7 +1035,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
     var pool = [];
     ORES.forEach(function (o, i) { if (o.min <= reach) pool.push(i); });
     var oi = pool[(Math.random() * pool.length) | 0], o = ORES[oi];
-    var rg = [[8, 14], [6, 10], [5, 8], [4, 6], [3, 5], [2, 3], [1, 2]][oi];
+    var rg = [[8, 14], [6, 10], [5, 8], [4, 6], [3, 5], [2, 3], [1, 2], [1, 3], [1, 2], [1, 2], [1, 1], [1, 1], [1, 1]][oi];
     var n = rg[0] + ((Math.random() * (rg[1] - rg[0] + 1)) | 0);
     return { t: "ore", o: o.id, n: n, reward: Math.round(n * o.v * 1.8 / 5) * 5 };
   }
@@ -966,7 +1059,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
         b.addEventListener("click", function () {
           if ((S.bag[q.o] || 0) < q.n) return;
           S.bag[q.o] -= q.n; if (!S.bag[q.o]) delete S.bag[q.o];
-          S.coins += q.reward; S.quests[idx] = genQuest(); save(); SFX.sell(); showCoins(true); renderBase();
+          S.coins += q.reward; S.stats.quests++; S.quests[idx] = genQuest(); afterAction(); save(); SFX.sell(); showCoins(true); renderBase();
         });
       }
       box.appendChild(row);
@@ -988,18 +1081,22 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
   }
 
   function renderBase(flashKey) {
-    var list = $("bagList"), html = "", any = false;
+    var list = $("bagList"), any = false, res = reservedOres();
     list.innerHTML = "";
     ORES.forEach(function (o) {
       var c = S.bag[o.id] || 0;
       if (!c) return;
       any = true;
       var li = document.createElement("li");
-      li.innerHTML = '<span class="sw"></span><span class="nm"></span><span class="ct"></span><span class="vl"></span>';
+      li.innerHTML = '<span class="sw"></span><span class="nm"></span><span class="ct"></span><span class="vl"></span><span class="sb"><button type="button" class="mini">1개</button><button type="button" class="mini">전부</button></span>';
       li.children[0].style.background = o.c;
-      li.children[1].textContent = o.name;
+      li.children[1].textContent = o.name + (res[o.id] ? " · 의뢰 " + res[o.id] : "");
       li.children[2].textContent = "×" + c;
-      li.children[3].textContent = num(c * o.v);
+      li.children[3].textContent = num(c * unitPrice(o));
+      var mb = li.querySelectorAll(".mini");
+      mb[0].setAttribute("aria-label", o.name + " 1개 판매"); mb[1].setAttribute("aria-label", o.name + " 전부 판매");
+      mb[0].addEventListener("click", function () { sellOre(o.id, 1); });
+      mb[1].addEventListener("click", function () { sellOre(o.id, c); });
       list.appendChild(li);
     });
     if (!any) {
@@ -1009,8 +1106,10 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
       list.appendChild(e);
     }
     $("bagSum").textContent = bagCount() + " / " + eff("bag") + "칸";
-    $("sellSum").textContent = any ? "판매 금액 " + num(bagValue()) : "";
-    $("sellBtn").disabled = !any;
+    var sv = sellableValue(), hasRes = Object.keys(res).some(function (k) { return S.bag[k]; });
+    $("sellSum").textContent = any ? (hasRes ? "의뢰용 제외 판매 시 " : "전체 판매 시 ") + num(sv) : "";
+    $("sellBtn").textContent = hasRes ? "의뢰 외 모두 판매" : "모두 판매";
+    $("sellBtn").disabled = sv <= 0;
     $("bestLabel").textContent = "최고 깊이 " + S.best + " m";
     var cdx = $("codex"), fc = 0;
     cdx.innerHTML = "";
@@ -1021,7 +1120,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
       row.innerHTML = '<span class="sw"></span><span class="nm"></span><span class="vl"></span>';
       row.children[0].style.background = f ? o.c : "#4a3d33";
       row.children[1].textContent = f ? o.name : "???";
-      row.children[2].textContent = f ? "개당 " + num(o.v) : "깊이 " + o.min + " m부터";
+      row.children[2].textContent = f ? "개당 " + num(unitPrice(o)) : "깊이 " + o.min + " m부터";
       cdx.appendChild(row);
     });
     $("codexSum").textContent = fc + " / " + ORES.length;
@@ -1045,7 +1144,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
         if (S.coins < cost) return;
         if (u.k === "drill") wSettle();
         var t0 = tierOf(u.k);
-        S.coins -= cost; S.lv[u.k]++; save(); SFX.buy(); showCoins(true); renderBase(u.k);
+        S.coins -= cost; S.lv[u.k]++; afterAction(); save(); SFX.buy(); showCoins(true); renderBase(u.k);
         if (tierOf(u.k) > t0) {
           var rp = $("report"); rp.hidden = false; rp.innerHTML = "<b></b><span></span>";
           rp.firstChild.textContent = "새 장비 장착!"; rp.lastChild.textContent = TIERNAME[u.k][tierOf(u.k)] + "로 바꿨어요.";
@@ -1055,15 +1154,20 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
       box.appendChild(row);
     });
     renderQuests();
+    renderAch();
     renderWorkers();
   }
 
   $("startBtn").addEventListener("click", startRun);
   $("returnBtn").addEventListener("click", function () { endRun("지상으로 귀환했어요."); });
   $("sellBtn").addEventListener("click", function () {
-    var v = bagValue();
+    var res = reservedOres(), v = 0;
+    ORES.forEach(function (o) {
+      var c = S.bag[o.id] || 0, n = c - Math.min(c, res[o.id] || 0);
+      if (n > 0) { v += n * unitPrice(o); S.bag[o.id] = c - n; if (!S.bag[o.id]) delete S.bag[o.id]; }
+    });
     if (!v) return;
-    S.coins += v; S.bag = {}; save(); SFX.sell(); showCoins(true); renderBase();
+    S.coins += v; save(); SFX.sell(); showCoins(true); renderBase();
   });
   var resetArmed = false, resetTimer = 0;
   $("resetBtn").addEventListener("click", function () {
@@ -1074,7 +1178,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
       return;
     }
     clearTimeout(resetTimer); resetArmed = false; b.textContent = "기록 초기화";
-    S = { coins: 0, lv: { drill: 1, time: 1, bag: 1, move: 1 }, best: 0, bag: {}, found: {}, mute: S.mute, workers: 0, wPend: 0, wLast: Date.now(), quests: [] };
+    S = { coins: 0, lv: { drill: 1, time: 1, bag: 1, move: 1 }, best: 0, bag: {}, found: {}, mute: S.mute, workers: 0, wPend: 0, wLast: Date.now(), quests: [], ach: {}, stats: { ores: 0, quests: 0 } };
     ensureQuests(); save(); $("report").hidden = true; showCoins(false); renderBase();
   });
 
@@ -1108,10 +1212,10 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
       var dx = e.clientX - (r.left + R), dy = e.clientY - (r.top + R), d = Math.hypot(dx, dy), mx = R * 0.5;
       var k = d > mx ? mx / d : 1, dir = -1;
       kb.style.transform = "translate(" + (dx * k).toFixed(1) + "px," + (dy * k).toFixed(1) + "px)";
-      if (d > R * 0.2) {
+      if (d > R * 0.28) {
         var ax = Math.abs(dx), ay = Math.abs(dy);
-        if (padDir === 1 || padDir === 3) dir = ay > ax * 1.35 ? (dy > 0 ? 2 : 0) : (dx > 0 ? 1 : 3);
-        else if (padDir === 0 || padDir === 2) dir = ax > ay * 1.35 ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0);
+        if (padDir === 1 || padDir === 3) dir = ay > ax * 1.6 ? (dy > 0 ? 2 : 0) : (dx > 0 ? 1 : 3);
+        else if (padDir === 0 || padDir === 2) dir = ax > ay * 1.6 ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0);
         else dir = ax > ay ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0);
       }
       padDir = dir;
@@ -1144,7 +1248,7 @@ button.primary { font-size: 26px; letter-spacing: 0.04em; }
     var cost = workerCost(S.workers);
     if (S.workers >= MAXW || S.coins < cost) return;
     wSettle();
-    S.coins -= cost; S.workers++; save(); SFX.buy(); showCoins(true); renderBase(); renderWorkers(S.workers - 1);
+    S.coins -= cost; S.workers++; afterAction(); save(); SFX.buy(); showCoins(true); renderBase(); renderWorkers(S.workers - 1);
   });
   setInterval(function () { if (state === "base") updatePend(); }, 1000);
 
